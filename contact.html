@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Hadiboo</title>
+<meta name="description" content="Book a consultation, enquire about mentorship or partner with Hadiboo.">
+<meta name="theme-color" content="#7f000c">
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="contact">
+<main id="main">
+
+<section class="page-head"><div class="container reveal"><span class="eyebrow">Contact</span><h1>Let's talk about what you need.</h1>
+<p class="lead">Share a few details and we'll reply within two working days.</p></div></section>
+<section class="section" id="book" style="padding-top:var(--s5)"><div class="container split">
+<form id="contact-form" class="card reveal" novalidate>
+<div class="row"><div><label for="name">Full name</label><input class="field" id="name" name="name" required autocomplete="name"></div>
+<div><label for="email">Email</label><input class="field" id="email" name="email" type="email" required autocomplete="email"></div></div>
+<div class="row"><div><label for="org">Organisation (optional)</label><input class="field" id="org" name="org" autocomplete="organization"></div>
+<div><label for="topic">I'm interested in</label><select class="field" id="topic" name="topic"><option>Career Clarity &amp; Mentorship</option><option>CV, Cover Letter &amp; LinkedIn Optimization</option><option>Interview Preparation &amp; Opportunity Readiness</option><option>Training, Facilitation &amp; Public Speaking</option><option>Public Health &amp; Development Programme Support</option><option>Project Development &amp; Organizational Support</option><option>Job listing</option><option>Something else</option></select></div></div>
+<label for="message">How can we help?</label><textarea class="field" id="message" name="message" required></textarea>
+<input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<div class="btn-row"><button class="btn btn--primary" type="submit">Send message</button></div>
+<p id="form-status" class="form-status" role="status" aria-live="polite"></p></form>
+<aside class="reveal"><div class="card" style="background:var(--maroon-700);color:var(--cream-100)"><h3 style="color:var(--cream-50)">Prefer to reach out directly?</h3>
+<p id="direct" style="color:var(--maroon-100)"></p>
+<div class="beads" style="color:var(--cream-200)"><i></i><i></i><i></i></div>
+<h3 style="color:var(--cream-50)">What happens next</h3><ol style="color:var(--maroon-100);padding-left:1.1rem;margin:0"><li>We read your message within a working day.</li><li>We reply with questions or a call time.</li><li>You get a clear, no-obligation proposal.</li></ol></div></aside>
+</div></section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/contact.js"></script>
+<script>(function(){var C=HADIBOO,h="";h+='Phone / WhatsApp: <a style="color:#fbf7f0" href="https://wa.me/'+C.whatsapp+'">'+C.phone+'</a><br>';h+='LinkedIn: <a style="color:#fbf7f0" target="_blank" rel="noopener" href="'+C.social.linkedin+'">Hadassah-Esther Nsibietabasi</a>';if(C.email)h+='<br>Email: <a style="color:#fbf7f0" href="mailto:'+C.email+'">'+C.email+'</a>';document.getElementById("direct").innerHTML=h;})();</script>
+</body>
+</html>
