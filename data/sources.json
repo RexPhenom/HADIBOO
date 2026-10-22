@@ -1,0 +1,57 @@
+{
+  "ttlDays": 6,
+  "maxNewPerRun": 40,
+  "reliefweb": {
+    "enabled": true,
+    "countryIso3": "NGA",
+    "themes": [
+      "Health",
+      "Water Sanitation Hygiene",
+      "Food and Nutrition"
+    ],
+    "limit": 40
+  },
+  "keywords": [
+    "health",
+    "public health",
+    "epidemiolog",
+    "nutrition",
+    "wash",
+    "sanitation",
+    "nurse",
+    "clinical",
+    "community",
+    "monitoring",
+    "evaluation",
+    "m&e",
+    "research",
+    "hiv",
+    "malaria",
+    "immuni",
+    "reproductive",
+    "nutritionist",
+    "program"
+  ],
+  "rss": [
+    {
+      "name": "Example RSS (disabled)",
+      "url": "",
+      "enabled": false
+    }
+  ],
+  "jooble": {
+    "enabled": true,
+    "location": "Nigeria",
+    "resultsPerKeyword": 20,
+    "keywords": [
+      "public health",
+      "monitoring and evaluation",
+      "programme officer",
+      "community development",
+      "health promotion",
+      "project coordinator",
+      "graduate trainee",
+      "career development"
+    ]
+  }
+}
