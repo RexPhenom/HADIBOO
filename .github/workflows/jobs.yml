@@ -1,0 +1,37 @@
+name: Refresh jobs board
+
+on:
+  schedule:
+    - cron: "15 */6 * * *"
+  workflow_dispatch:
+  push:
+    paths: ["data/manual-jobs.json", "data/sources.json", "scripts/fetch-jobs.mjs"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jobs
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Fetch, add and prune jobs
+        env:
+          JOOBLE_API_KEY: ${{ secrets.JOOBLE_API_KEY }}
+          RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
+        run: node scripts/fetch-jobs.mjs
+      - name: Commit changes
+        run: |
+          git config user.name  "hadiboo-bot"
+          git config user.email "hadiboo-bot@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then echo "No changes"; else
+            git commit -m "chore(jobs): refresh $(date -u +%F\ %H:%M) UTC"
+            git push
+          fi
