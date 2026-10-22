@@ -109,7 +109,7 @@
   sb.auth.onAuthStateChange((ev) => { if (ev === "PASSWORD_RECOVERY") showSetPassword(); if (ev === "SIGNED_OUT" && session) { session = null; showLogin(); } });
 
   /* ---------- shell ---------- */
-  const TABS = [["dashboard", "Dashboard"], ["jobs", "Jobs"], ["enquiries", "Enquiries"], ["gallery", "Gallery"], ["awards", "Awards & certificates"], ["sponsors", "Sponsors"], ["reviews", "Reviews"], ["testimonials", "Testimonials"], ["settings", "Site settings"], ["admins", "Admins"]];
+  const TABS = [["dashboard", "Dashboard"], ["jobs", "Jobs"], ["enquiries", "Enquiries"], ["gallery", "Gallery"], ["awards", "Awards & certificates"], ["sponsors", "Sponsors"], ["courses", "Courses"], ["reviews", "Reviews"], ["testimonials", "Testimonials"], ["settings", "Site settings"], ["admins", "Admins"]];
   function shell(tab) {
     const content = el("main", { class: "main", id: "content" });
     const nav = el("nav", { "aria-label": "Admin" }, TABS.map(([k, t]) => el("button", { type: "button", "aria-current": String(k === tab), text: t, onclick: () => shell(k) })));
@@ -117,7 +117,7 @@
       el("aside", { class: "side" }, el("img", { src: "../assets/logo-full.png", alt: "Hadiboo" }), nav,
         el("div", { class: "who" }, session.user.email, el("br"), el("button", { class: "btn btn--outline-light btn--sm", type: "button", text: "Sign out", onclick: () => signOut() }))),
       content));
-    ({ dashboard, jobs, enquiries, gallery, awards, sponsors, reviews, testimonials, settings, admins })[tab](content);
+    ({ dashboard, jobs, enquiries, gallery, awards, sponsors, courses, reviews, testimonials, settings, admins })[tab](content);
   }
   const fail = (box, error) => { box.append(el("p", { class: "msg err", text: "Something went wrong: " + (error && error.message || "unknown error") })); };
   const count = async (table, f) => { let q = sb.from(table).select("*", { count: "exact", head: true }); if (f) q = f(q); const { count: c } = await q; return c ?? 0; };
@@ -151,8 +151,57 @@
         field("url", "Apply link (https://) *", { max: "1000", a: { type: "url", placeholder: "https://" } }, true),
         field("sum", "Short summary", { tag: "textarea", max: "600", a: { rows: "3" } }, true), field("closing", "Employer deadline (optional)", { max: "60" }), field("source", "Source (e.g. Jooble, LinkedIn)", { max: "60" })),
       el("div", { class: "btn-row" }, el("button", { class: "btn btn--primary", type: "submit", text: "Add job" })), msg);
+
+
+    /* ---- automatic job feed status (written by the GitHub Action) ---- */
+    const feed = el("div", { class: "panel" }, el("h2", { text: "Automatic job feed" }), el("p", { text: "Checking…" }));
+    fetch("../data/run-log.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : Promise.reject())).then((d) => {
+      const rows = Object.entries(d.sources || {}).map(([k, v]) => el("li", {}, el("b", { text: k + ": " }), String(v)));
+      feed.replaceChildren(el("h2", { text: "Automatic job feed" }), el("p", { text: "Last run: " + fmt(d.ranAt) + " — " + (d.summary || "") }), el("ul", {}, rows),
+        el("p", { class: "meta", text: "If Jooble says SKIPPED, add the JOOBLE_API_KEY secret in GitHub. If it shows an HTTP error, the key is wrong." }));
+    }).catch(() => feed.replaceChildren(el("h2", { text: "Automatic job feed" }), el("p", { text: "No run report yet. In GitHub open Actions → Refresh jobs board → Run workflow (make sure the latest scripts/fetch-jobs.mjs is uploaded)." })));
+    /* ---- bulk import: paste rows from a spreadsheet, or choose a CSV file ---- */
+    const COLS = ["title", "organization", "location", "type", "url", "closing", "summary", "source"];
+    const parseRows = (text) => {
+      const t = text.replace(/^﻿/, ""), delim = t.includes("\t") ? "\t" : ",";
+      const rows = []; let row = [], cur = "", q = false;
+      for (let i = 0; i < t.length; i++) {
+        const c = t[i];
+        if (q) { if (c === '"') { if (t[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
+        else if (c === '"') q = true; else if (c === delim) { row.push(cur); cur = ""; }
+        else if (c === "\n" || c === "\r") { if (c === "\r" && t[i + 1] === "\n") i++; row.push(cur); cur = ""; if (row.some((x) => x.trim())) rows.push(row); row = []; }
+        else cur += c;
+      }
+      row.push(cur); if (row.some((x) => x.trim())) rows.push(row);
+      return rows;
+    };
+    const area = el("textarea", { class: "field", rows: "7", id: "jimp", maxlength: "200000", placeholder: "Title, Organisation, Location, Type, Apply link, Deadline, Summary, Source\nField Epidemiologist, WHO, Abuja, Full-time, https://example.com/apply, 30 Nov, Short note, Jooble" });
+    const cfile = el("input", { class: "field", type: "file", id: "jcsv", accept: ".csv,.tsv,.txt,text/csv,text/plain", onchange: async (e) => { const x = e.target.files[0]; if (x) { if (x.size > 500000) return say(imsg, "That file is too large.", "err"); area.value = await x.text(); } } });
+    const imsg = el("div", { class: "msg", role: "status" });
+    const ibtn = el("button", { class: "btn btn--primary", type: "button", text: "Import jobs", onclick: async () => {
+      const rows = parseRows(area.value); if (!rows.length) return say(imsg, "Paste some rows first.", "err");
+      if (/^title$/i.test((rows[0][0] || "").trim())) rows.shift();
+      const good = [], bad = []; const seen = new Set();
+      rows.forEach((r, i) => {
+        const [title, org, loc, type, url, closing, sum, source] = r.map((x) => (x || "").trim());
+        const u = url || "";
+        if (!title || title.length < 2 || !/^https:\/\/[^\s]+$/i.test(u) || u.length > 1000) return bad.push(i + 1);
+        if (seen.has(u)) return; seen.add(u);
+        good.push({ title: title.slice(0, 160), organization: org.slice(0, 160) || null, location: loc.slice(0, 160) || null, type: type.slice(0, 40) || null, url: u, closing: closing.slice(0, 60) || null, summary: sum.slice(0, 600) || null, source: (source || "Hadiboo").slice(0, 60) });
+      });
+      if (!good.length) return say(imsg, "No valid rows. Each row needs a title and an apply link starting with https://", "err");
+      ibtn.disabled = true; say(imsg, "Importing…");
+      const ex = await sb.from("hadiboo_jobs").select("url").limit(2000); const have = new Set((ex.data || []).map((x) => x.url));
+      const fresh = good.filter((g) => !have.has(g.url)); let done = 0;
+      for (let i = 0; i < fresh.length; i += 100) { const { error } = await sb.from("hadiboo_jobs").insert(fresh.slice(i, i + 100)); if (error) { ibtn.disabled = false; return say(imsg, `Stopped after ${done}: ${error.message}`, "err"); } done += Math.min(100, fresh.length - i); }
+      area.value = ""; cfile.value = ""; ibtn.disabled = false;
+      say(imsg, `Imported ${done} job${done === 1 ? "" : "s"}.` + (good.length - fresh.length ? ` ${good.length - fresh.length} skipped (already listed).` : "") + (bad.length ? ` ${bad.length} row${bad.length === 1 ? "" : "s"} ignored (missing title or https link: row ${bad.slice(0, 8).join(", ")}).` : "") + " Each disappears automatically 6 days after import.", "ok"); list();
+    } });
+    const importPanel = el("div", { class: "panel" }, el("h2", { text: "Import many jobs at once" }),
+      el("p", { text: "Copy rows from Excel or Google Sheets and paste them here, or choose a CSV file. Column order: Title, Organisation, Location, Type, Apply link, Deadline, Summary, Source. Only Title and Apply link (https://) are required. A header row is fine; jobs already listed are skipped." }),
+      el("label", { for: "jimp", text: "Paste rows" }), area, el("label", { for: "jcsv", text: "…or choose a CSV file" }), cfile, el("div", { class: "btn-row" }, ibtn), imsg);
     const holder = el("div", { class: "rows" });
-    box.append(form, el("div", { class: "panel" }, el("h2", { text: "All jobs" }), el("div", { class: "btn-row" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: "Delete expired now", onclick: async () => { await sb.rpc("hadiboo_purge_expired_jobs"); list(); } })), holder));
+    box.append(feed, form, importPanel, el("div", { class: "panel" }, el("h2", { text: "All jobs" }), el("div", { class: "btn-row" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: "Delete expired now", onclick: async () => { await sb.rpc("hadiboo_purge_expired_jobs"); list(); } })), holder));
     async function list() {
       holder.replaceChildren();
       const { data, error } = await sb.from("hadiboo_jobs").select("*").order("added_at", { ascending: false }).limit(200);
@@ -327,6 +376,33 @@
     addTitle: "Add a sponsor", help: "Their logo and a short write-up appear on the Awards & Partners page and the home page. Only add sponsors who have agreed.", imageLabel: "Logo or picture",
     fields: [{ k: "name", label: "Name", req: true, max: 120 }, { k: "blurb", label: "Short write-up", tag: "textarea", max: 800 }, { k: "website", label: "Website (https://…)", max: 500, https: true, ph: "https://" }, { k: "sort_order", label: "Order (1 shows first)", type: "number", max: 5 }],
     meta: (r) => [r.website, fmt(r.created_at)].filter(Boolean).join(" · ") });
+
+  /* ---------- courses ---------- */
+  async function courses(box) {
+    box.append(el("h1", { text: "Courses" }));
+    const msg = el("div", { class: "msg", role: "status" });
+    const f = {}; const fld = (k, label, o = {}) => { f[k] = el(o.tag === "textarea" ? "textarea" : "input", { class: "field", id: "c" + k, maxlength: String(o.max || 160), ...(o.tag === "textarea" ? { rows: "3" } : {}), ...(o.a || {}) }); return [el("label", { for: "c" + k, text: label }), f[k]]; };
+    const form = el("form", { class: "panel", novalidate: true, onsubmit: async (e) => {
+      e.preventDefault(); const url = f.url.value.trim();
+      if (f.title.value.trim().length < 2) return say(msg, "Course title is required.", "err");
+      if (!/^https:\/\/[^\s]+$/i.test(url)) return say(msg, "The course link must start with https://", "err");
+      const { error } = await sb.from("hadiboo_courses").insert({ title: f.title.value.trim(), provider: f.provider.value.trim() || null, category: f.category.value.trim() || null, cost: f.cost.value.trim() || null, description: f.description.value.trim() || null, url });
+      if (error) return say(msg, error.message, "err"); form.reset(); say(msg, "Course posted — it's now live on the Courses page.", "ok"); list();
+    } }, el("h2", { text: "Post a course" }), el("p", { text: "Add the link to a course. Visitors click it and go to the course provider's page." }),
+      ...fld("title", "Course title *"), ...fld("url", "Course link (https://) *", { max: 1000, a: { type: "url", placeholder: "https://" } }), ...fld("provider", "Provider (e.g. Coursera, WHO Academy)"),
+      ...fld("category", "Category (e.g. Public health, Career skills)", { max: 60 }), ...fld("cost", "Cost (Free, Paid, Free certificate…)", { max: 30 }), ...fld("description", "Short description", { tag: "textarea", max: 600 }),
+      el("div", { class: "btn-row" }, el("button", { class: "btn btn--primary", type: "submit", text: "Post course" })), msg);
+    const holder = el("div", { class: "rows" }); box.append(form, el("div", { class: "panel" }, el("h2", { text: "All courses" }), holder));
+    async function list() {
+      holder.replaceChildren(); const { data, error } = await sb.from("hadiboo_courses").select("*").order("created_at", { ascending: false }).limit(300);
+      if (error) return fail(holder, error); if (!data.length) return holder.append(el("p", { text: "No courses yet." }));
+      data.forEach((c) => holder.append(el("div", { class: "row-item" }, el("div", {}, el("h3", { text: c.title }),
+        el("div", { class: "meta", text: [c.provider, c.category, c.cost, fmt(c.created_at), c.published ? "" : "HIDDEN"].filter(Boolean).join(" · ") }), el("div", { class: "meta", text: c.url }), c.description ? el("p", { text: c.description }) : null),
+        el("div", { class: "acts" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: c.published ? "Hide" : "Show", onclick: async () => { await sb.from("hadiboo_courses").update({ published: !c.published }).eq("id", c.id); list(); } }),
+          el("button", { class: "btn btn--danger btn--sm", type: "button", text: "Remove", onclick: async () => { if (confirm("Remove this course?")) { await sb.from("hadiboo_courses").delete().eq("id", c.id); list(); } } })))));
+    }
+    list();
+  }
 
   /* ---------- reviews ---------- */
   async function reviews(box) {
