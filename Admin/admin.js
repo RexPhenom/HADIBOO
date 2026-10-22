@@ -109,7 +109,7 @@
   sb.auth.onAuthStateChange((ev) => { if (ev === "PASSWORD_RECOVERY") showSetPassword(); if (ev === "SIGNED_OUT" && session) { session = null; showLogin(); } });
 
   /* ---------- shell ---------- */
-  const TABS = [["dashboard", "Dashboard"], ["jobs", "Jobs"], ["enquiries", "Enquiries"], ["gallery", "Gallery"], ["testimonials", "Testimonials"], ["settings", "Site settings"], ["admins", "Admins"]];
+  const TABS = [["dashboard", "Dashboard"], ["jobs", "Jobs"], ["enquiries", "Enquiries"], ["gallery", "Gallery"], ["awards", "Awards & certificates"], ["sponsors", "Sponsors"], ["reviews", "Reviews"], ["testimonials", "Testimonials"], ["settings", "Site settings"], ["admins", "Admins"]];
   function shell(tab) {
     const content = el("main", { class: "main", id: "content" });
     const nav = el("nav", { "aria-label": "Admin" }, TABS.map(([k, t]) => el("button", { type: "button", "aria-current": String(k === tab), text: t, onclick: () => shell(k) })));
@@ -117,7 +117,7 @@
       el("aside", { class: "side" }, el("img", { src: "../assets/logo-full.png", alt: "Hadiboo" }), nav,
         el("div", { class: "who" }, session.user.email, el("br"), el("button", { class: "btn btn--outline-light btn--sm", type: "button", text: "Sign out", onclick: () => signOut() }))),
       content));
-    ({ dashboard, jobs, enquiries, gallery, testimonials, settings, admins })[tab](content);
+    ({ dashboard, jobs, enquiries, gallery, awards, sponsors, reviews, testimonials, settings, admins })[tab](content);
   }
   const fail = (box, error) => { box.append(el("p", { class: "msg err", text: "Something went wrong: " + (error && error.message || "unknown error") })); };
   const count = async (table, f) => { let q = sb.from(table).select("*", { count: "exact", head: true }); if (f) q = f(q); const { count: c } = await q; return c ?? 0; };
@@ -125,11 +125,11 @@
   /* ---------- dashboard ---------- */
   async function dashboard(box) {
     box.append(el("h1", { text: "Dashboard" }));
-    const [j, e, t, a, g] = await Promise.all([
+    const [j, e, t, a, g, rv] = await Promise.all([
       count("hadiboo_jobs", (q) => q.gt("expires_at", new Date().toISOString()).eq("hidden", false)),
-      count("hadiboo_enquiries", (q) => q.eq("status", "new")), count("hadiboo_testimonials", (q) => q.eq("approved", false)), count("hadiboo_admins"), count("hadiboo_gallery")]);
+      count("hadiboo_enquiries", (q) => q.eq("status", "new")), count("hadiboo_testimonials", (q) => q.eq("approved", false)), count("hadiboo_admins"), count("hadiboo_gallery"), count("hadiboo_reviews", (q) => q.eq("approved", false))]);
     const s = (n, l) => el("div", { class: "stat" }, el("b", { text: n }), el("span", { text: l }));
-    box.append(el("div", { class: "stats" }, s(j, "Live jobs"), s(e, "New enquiries"), s(t, "Testimonials to approve"), s(a, "Admins"), s(g, "Gallery photos")),
+    box.append(el("div", { class: "stats" }, s(j, "Live jobs"), s(e, "New enquiries"), s(t, "Testimonials to approve"), s(a, "Admins"), s(g, "Gallery photos"), s(rv, "Reviews to approve")),
       el("div", { class: "panel" }, el("h2", { text: "Quick guide" }), el("p", { text: "Jobs you add here are removed automatically 6 days after they are added. New enquiries from the website and the WhatsApp button land in Enquiries. Contact details and the site-wide announcement banner are under Site settings." })));
   }
 
@@ -178,7 +178,7 @@
     box.append(el("h1", { text: "Enquiries" }));
     const holder = el("div", { class: "rows" }); let rows = [];
     box.append(el("div", { class: "panel" }, el("div", { class: "btn-row" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: "Export CSV", onclick: () => {
-      const csv = ["Date,Name,Organisation,Topic,Channel,Status,Message"].concat(rows.map((r) => [r.created_at, r.name, r.org, r.topic, r.channel, r.status, r.message].map(csvCell).join(","))).join("\n");
+      const csv = ["Date,Name,Email,Organisation,Topic,Channel,Status,Message"].concat(rows.map((r) => [r.created_at, r.name, r.email, r.org, r.topic, r.channel, r.status, r.message].map(csvCell).join(","))).join("\n");
       const a = el("a", { href: URL.createObjectURL(new Blob([csv], { type: "text/csv" })), download: "hadiboo-enquiries.csv" }); document.body.append(a); a.click(); a.remove();
     } })), holder));
     async function list() {
@@ -190,7 +190,7 @@
         const sel = el("select", { class: "field sm", "aria-label": "Status", onchange: async () => { await sb.from("hadiboo_enquiries").update({ status: sel.value }).eq("id", r.id); } },
           ["new", "contacted", "closed"].map((s) => el("option", { value: s, text: s, selected: s === r.status })));
         holder.append(el("div", { class: "row-item" }, el("div", {},
-          el("h3", { text: r.name + (r.org ? " — " + r.org : "") }), el("div", { class: "meta" }, `${fmt(r.created_at)} · ${r.channel} · ${r.topic || "General"}`), r.message ? el("p", { text: r.message }) : null),
+          el("h3", { text: r.name + (r.org ? " — " + r.org : "") }), el("div", { class: "meta" }, `${fmt(r.created_at)} · ${r.channel} · ${r.topic || "General"}${r.email ? " · " + r.email : ""}`), r.message ? el("p", { text: r.message }) : null),
           el("div", { class: "acts" }, sel, el("button", { class: "btn btn--danger btn--sm", type: "button", text: "Delete", onclick: async () => { if (confirm("Delete this enquiry?")) { await sb.from("hadiboo_enquiries").delete().eq("id", r.id); list(); } } }))));
       });
     }
@@ -201,11 +201,11 @@
   /* ---------- gallery ---------- */
   const BUCKET = "hadiboo-gallery";
   const pubUrl = (p) => cfg.url.replace(/\/$/, "") + "/storage/v1/object/public/" + BUCKET + "/" + encodeURI(p);
-  async function prepareImage(file) {
+  async function prepareImage(file, max = 1600) {
     if (!/^image\/(jpeg|png|webp)$/.test(file.type)) throw new Error("Please choose a JPG, PNG or WebP image.");
     if (file.size > 20 * 1024 * 1024) throw new Error("That image is too large (max 20 MB).");
     const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
-    const s = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const s = Math.min(1, max / Math.max(bmp.width, bmp.height));
     const c = document.createElement("canvas"); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
     const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(bmp, 0, 0, c.width, c.height);
     // Re-encoding strips EXIF (e.g. GPS location) and shrinks the file
@@ -277,6 +277,73 @@
         };
         holder.append(view());
       });
+    }
+    list();
+  }
+
+  /* ---------- awards & sponsors (image + details managers) ---------- */
+  function imageManager(box, o) {
+    box.append(el("h1", { text: o.title }));
+    const msg = el("div", { class: "msg", role: "status" });
+    const f = {}; o.fields.forEach((d) => { f[d.k] = d.tag === "select" ? el("select", { class: "field", id: "m" + d.k }, d.options.map((x) => el("option", { value: x, text: x }))) : el(d.tag === "textarea" ? "textarea" : "input", { class: "field", id: "m" + d.k, maxlength: String(d.max || 160), ...(d.tag === "textarea" ? { rows: "3" } : {}), ...(d.type ? { type: d.type } : {}), ...(d.ph ? { placeholder: d.ph } : {}) }); });
+    const file = el("input", { class: "field", type: "file", id: "mfile", accept: "image/jpeg,image/png,image/webp" });
+    const prev = el("img", { class: "gprevimg", alt: "", hidden: true });
+    file.addEventListener("change", () => { const x = file.files[0]; if (!x) { prev.hidden = true; return; } prev.src = URL.createObjectURL(x); prev.hidden = false; });
+    const btn = el("button", { class: "btn btn--primary", type: "submit", text: "Save & publish" });
+    const form = el("form", { class: "panel", novalidate: true, onsubmit: async (e) => {
+      e.preventDefault();
+      const row = {}; for (const d of o.fields) { const v = f[d.k].value.trim(); row[d.k] = v || (d.req ? "" : null); if (d.req && !v) return say(msg, d.label + " is required.", "err"); if (d.https && v && !/^https:\/\//i.test(v)) return say(msg, d.label + " must start with https://", "err"); }
+      if (row.sort_order == null) delete row.sort_order;
+      const x = file.files[0]; if (o.imageRequired && !x) return say(msg, o.imageLabel + " is required.", "err");
+      btn.disabled = true; let path = null;
+      try {
+        if (x) { say(msg, "Preparing image…"); const blob = await prepareImage(x, o.max); path = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)) + ".jpg";
+          const up = await sb.storage.from(BUCKET).upload(path, blob, { contentType: "image/jpeg", cacheControl: "31536000", upsert: false }); if (up.error) throw up.error; }
+        const ins = await sb.from(o.table).insert({ ...row, [o.imageCol]: path });
+        if (ins.error) { if (path) await sb.storage.from(BUCKET).remove([path]); throw ins.error; }
+        form.reset(); prev.hidden = true; say(msg, "Saved — it's now live on the website.", "ok"); list();
+      } catch (er) { say(msg, er.message || "Could not save.", "err"); }
+      btn.disabled = false;
+    } }, el("h2", { text: o.addTitle }), el("p", { text: o.help }),
+      ...o.fields.flatMap((d) => [el("label", { for: "m" + d.k, text: d.label + (d.req ? " *" : "") }), f[d.k]]),
+      el("label", { for: "mfile", text: o.imageLabel + (o.imageRequired ? " *" : " (optional)") }), file, prev, el("div", { class: "btn-row" }, btn), msg);
+    const holder = el("div", { class: "rows" }); box.append(form, el("div", { class: "panel" }, el("h2", { text: "All " + o.plural }), holder));
+    async function list() {
+      holder.replaceChildren(); const { data, error } = await sb.from(o.table).select("*").order("created_at", { ascending: false }).limit(300);
+      if (error) return fail(holder, error); if (!data.length) return holder.append(el("p", { text: "Nothing here yet." }));
+      data.forEach((r) => holder.append(el("div", { class: "row-item gal" }, r[o.imageCol] ? el("img", { class: "thumb", src: pubUrl(r[o.imageCol]), alt: "", loading: "lazy" }) : el("div", { class: "thumb" }),
+        el("div", {}, el("h3", { text: r[o.nameCol] }), el("div", { class: "meta", text: o.meta(r) + (r.published ? "" : " · HIDDEN") }), r[o.textCol] ? el("p", { text: r[o.textCol] }) : null),
+        el("div", { class: "acts" },
+          el("button", { class: "btn btn--ghost btn--sm", type: "button", text: r.published ? "Hide" : "Show", onclick: async () => { await sb.from(o.table).update({ published: !r.published }).eq("id", r.id); list(); } }),
+          el("button", { class: "btn btn--danger btn--sm", type: "button", text: "Delete", onclick: async () => { if (!confirm("Delete this permanently?")) return; if (r[o.imageCol]) await sb.storage.from(BUCKET).remove([r[o.imageCol]]); await sb.from(o.table).delete().eq("id", r.id); list(); } })))));
+    }
+    list();
+  }
+  const awards = (box) => imageManager(box, { title: "Awards & certificates", plural: "awards", table: "hadiboo_awards", imageCol: "image_path", nameCol: "title", textCol: "description", max: 1600,
+    addTitle: "Add an award or certificate", help: "Shown on the Awards & Partners page. Add a photo or scan of the certificate if you have one.", imageLabel: "Certificate / award photo",
+    fields: [{ k: "kind", label: "Type", tag: "select", options: ["award", "certificate", "recognition"] }, { k: "title", label: "Title", req: true, max: 160 }, { k: "issuer", label: "Given by", max: 160 }, { k: "year", label: "Year", max: 20 }, { k: "description", label: "Short write-up", tag: "textarea", max: 600 }],
+    meta: (r) => [r.kind, r.issuer, r.year].filter(Boolean).join(" · ") });
+  const sponsors = (box) => imageManager(box, { title: "Sponsors & partners", plural: "sponsors", table: "hadiboo_sponsors", imageCol: "logo_path", nameCol: "name", textCol: "blurb", max: 800, imageRequired: true,
+    addTitle: "Add a sponsor", help: "Their logo and a short write-up appear on the Awards & Partners page and the home page. Only add sponsors who have agreed.", imageLabel: "Logo or picture",
+    fields: [{ k: "name", label: "Name", req: true, max: 120 }, { k: "blurb", label: "Short write-up", tag: "textarea", max: 800 }, { k: "website", label: "Website (https://…)", max: 500, https: true, ph: "https://" }, { k: "sort_order", label: "Order (1 shows first)", type: "number", max: 5 }],
+    meta: (r) => [r.website, fmt(r.created_at)].filter(Boolean).join(" · ") });
+
+  /* ---------- reviews ---------- */
+  async function reviews(box) {
+    box.append(el("h1", { text: "Reviews" }));
+    const msg = el("div", { class: "msg", role: "status" });
+    const auto = el("input", { type: "checkbox", id: "rauto" });
+    const cur = await sb.from("hadiboo_settings").select("value").eq("key", "reviews").maybeSingle(); auto.checked = !!(cur.data && cur.data.value && cur.data.value.auto);
+    auto.addEventListener("change", async () => { const { error } = await sb.from("hadiboo_settings").upsert({ key: "reviews", value: { auto: auto.checked } }); say(msg, error ? error.message : auto.checked ? "New reviews now go live immediately." : "New reviews now wait for your approval.", error ? "err" : "ok"); });
+    box.append(el("div", { class: "panel" }, el("h2", { text: "Publishing" }), el("label", { class: "chk", for: "rauto" }, auto, "Publish new reviews automatically (otherwise they wait here for approval)"), msg));
+    const holder = el("div", { class: "rows" }); box.append(el("div", { class: "panel" }, el("h2", { text: "All reviews" }), holder));
+    async function list() {
+      holder.replaceChildren(); const { data, error } = await sb.from("hadiboo_reviews").select("*").order("created_at", { ascending: false }).limit(300);
+      if (error) return fail(holder, error); if (!data.length) return holder.append(el("p", { text: "No reviews yet." }));
+      data.forEach((r) => holder.append(el("div", { class: "row-item" }, el("div", {}, el("h3", { text: "★".repeat(r.rating) + "☆".repeat(5 - r.rating) + "  " + r.name + (r.role ? " — " + r.role : "") }),
+        el("div", { class: "meta", text: fmt(r.created_at) + " · " + (r.approved ? "Live" : "WAITING FOR APPROVAL") }), el("p", { text: r.comment })),
+        el("div", { class: "acts" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: r.approved ? "Hide" : "Approve", onclick: async () => { await sb.from("hadiboo_reviews").update({ approved: !r.approved }).eq("id", r.id); list(); } }),
+          el("button", { class: "btn btn--danger btn--sm", type: "button", text: "Delete", onclick: async () => { if (confirm("Delete this review?")) { await sb.from("hadiboo_reviews").delete().eq("id", r.id); list(); } } })))));
     }
     list();
   }
