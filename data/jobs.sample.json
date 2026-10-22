@@ -1,6 +1,0 @@
-{ "jobs": [
- {"id":"s1","title":"Public Health Programme Officer","organization":"Example Health Foundation","location":"Uyo, Akwa Ibom","type":"Full-time","summary":"Support design and delivery of community health programmes across the South-South region.","url":"https://example.org/jobs/1","source":"Sample data","closing":"12 Nov 2026"},
- {"id":"s2","title":"Monitoring & Evaluation Assistant","organization":"Example NGO Nigeria","location":"Abuja","type":"Contract","summary":"Collect, clean and report programme indicators for a maternal health project.","url":"https://example.org/jobs/2","source":"Sample data"},
- {"id":"s3","title":"WASH Community Facilitator","organization":"Example WASH Alliance","location":"Cross River","type":"Full-time","summary":"Lead hygiene promotion sessions and community mobilisation.","url":"https://example.org/jobs/3","source":"Sample data"},
- {"id":"s4","title":"Health Communication Intern","organization":"Example Public Health Institute","location":"Remote","type":"Internship","summary":"Draft health education materials and support social media campaigns.","url":"https://example.org/jobs/4","source":"Sample data"}
-]}
