@@ -32,3 +32,13 @@ Jobs auto-imported from Jooble (GitHub Action) follow the same 6-day rule in `da
 2. Supabase → Authentication → Users → **Invite user** → her email. She gets an email and sets her own password — nobody else ever sees it.
 3. She signs in at `/admin/` and can post to the Gallery, jobs, etc.
 (If you ran the base schema earlier, also run `supabase/gallery.sql` once. New installs get the gallery from `schema.sql`.)
+
+## Adding Hadassah (hadiboocareerclinic@gmail.com) as admin
+1. Run `supabase/updates-2.sql` in the Supabase SQL editor (it adds her email to the admin list, plus reviews, sponsors, awards).
+2. Supabase → Authentication → Users → **Add user → Send invitation** (or "Create new user") for hadiboocareerclinic@gmail.com.
+3. Authentication → URL Configuration: add `https://rexphenom.github.io/HADIBOO/admin/` to Redirect URLs.
+4. She opens `/admin/`, clicks **Forgot password?**, and sets her own password from the email link. You never see it.
+
+## New tabs
+Awards & certificates, Sponsors (logo + write-up), Reviews (approve/hide, auto-publish switch).
+Set the business email under **Site settings** to switch on the "Send by email" button.
