@@ -1,8 +1,8 @@
 {
-  "ranAt": "2026-10-22T22:17:20.829Z",
+  "ranAt": "2026-10-22T22:19:16.110Z",
   "sources": {
-    "jooble": "0 fetched; problems: HTTP 403 <!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en-NG\">\n<head>\n\t<title>Error 403</t | HTTP 403 <!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en-NG\">\n<head>\n\t<title>Error 403</t | HTTP 403 <!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en-NG\">\n<head>\n\t<title>Error 403</t | HTTP 403 <!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en-NG\">\n<head>\n\t<title>Error 403</t",
+    "jooble": "1 fetched",
     "reliefweb": "SKIPPED: RELIEFWEB_APPNAME not set (optional)"
   },
-  "summary": "+0 added, -40 expired, 0 live"
+  "summary": "+1 added, -0 expired, 1 live"
 }
