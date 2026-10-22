@@ -6,10 +6,12 @@ A fast, accessible, zero-build website with an **auto-updating jobs board**: new
 
 ```
 hadiboo/
-├── index.html · about.html · services.html · career.html · jobs.html · contact.html
+├── index.html · about.html · gallery.html · services.html · career.html · jobs.html · contact.html
 ├── css/styles.css          design system (tokens → components)
 ├── js/                     config, shared layout, jobs board, contact form
 ├── data/                   jobs.json (live) · sources.json · manual-jobs.json · seen.json
+├── admin/                  secure admin dashboard (Supabase Auth + RLS)
+├── supabase/schema.sql     database, security policies
 ├── scripts/fetch-jobs.mjs  add + prune pipeline
 ├── .github/workflows/jobs.yml   runs every 6 hours
 ├── assets/                 logo variants (original + transparent PNGs)
@@ -32,4 +34,4 @@ See [docs/JOBS.md](docs/JOBS.md). In short: a GitHub Action runs every 6 hours �
 GitHub Pages: *Settings → Pages → Deploy from branch → `main` / root*. Full checklist in [docs/LAUNCH.md](docs/LAUNCH.md).
 
 ## Docs
-- [Design system](docs/DESIGN.md) · [UX research & flows](docs/UX.md) · [Jobs pipeline](docs/JOBS.md) · [Launch checklist](docs/LAUNCH.md)
+- [Design system](docs/DESIGN.md) · [UX research & flows](docs/UX.md) · [Jobs pipeline](docs/JOBS.md) · [Launch checklist](docs/LAUNCH.md) · [Admin guide](docs/ADMIN.md) · [Security](docs/SECURITY.md)

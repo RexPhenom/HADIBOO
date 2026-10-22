@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hadiboo — Career Development, Public Health & Capacity Building</title>
 <meta name="description" content="Hadiboo helps students and professionals gain career clarity, and supports organizations with public health, development programmes, training and project development.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://*.supabase.co; connect-src 'self' https://*.supabase.co https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#7f000c">
 <meta property="og:title" content="Hadiboo — Career Development, Public Health & Capacity Building"><meta property="og:description" content="Hadiboo helps students and professionals gain career clarity, and supports organizations with public health, development programmes, training and project development."><meta property="og:image" content="assets/logo-original.jpg">
+<script src="js/theme.js"></script>
 <link rel="icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,7 +18,7 @@
 <body data-page="home">
 <main id="main">
 
-<section class="hero"><div class="container hero-grid"><div>
+<section class="hero hero--photo"><div class="container hero-grid"><div>
 <span class="eyebrow">Career development · Public health · Capacity building</span>
 <h1>Career <em>clarity</em> for people. Capacity for communities.</h1>
 <p class="lead">Hadiboo helps students, graduates and young professionals build their professional brands and position themselves for opportunities — and supports organizations with programme planning, training and community-focused delivery.</p>
@@ -54,9 +57,20 @@
 <details><summary>Do you work with organizations?</summary><p>Yes — NGOs, community organizations, schools, companies and development teams, for training, programme support, proposals and capacity assessments.</p></details>
 <details><summary>Can sessions be held online?</summary><p>Yes. Most sessions and trainings can be delivered online; in-person arrangements are available on request.</p></details>
 <details><summary>Why do job listings disappear after six days?</summary><p>To keep the board current. Always apply through the employer's official link and never pay to apply.</p></details></div></section>
+<section class="section section--cream2" id="gallery-preview" hidden><div class="container"><div class="reveal"><span class="eyebrow">Gallery</span><h2>Moments from our work.</h2></div><div class="gprev" id="gallery-preview-list"></div><div class="btn-row"><a class="btn btn--ghost" href="gallery.html">View full gallery</a></div></div></section>
+
+<section class="section" id="testimonials" hidden><div class="container"><span class="eyebrow">Kind words</span><h2>What clients say.</h2><div class="grid grid-3" id="testimonials-list" style="margin-top:2rem"></div></div></section>
+
+<section class="section" id="home-reviews" hidden><div class="container"><div class="reveal"><span class="eyebrow">Ratings &amp; reviews</span><h2>Loved by the people we work with.</h2><p id="home-reviews-top" class="lead"></p></div><div class="grid grid-3" id="home-reviews-list" style="margin-top:var(--s5)"></div><div class="btn-row" style="margin-top:var(--s5)"><a class="btn btn--ghost" href="reviews.html">Read all reviews &amp; leave yours</a></div></div></section>
+<section class="section section--cream2" id="home-sponsors" hidden><div class="container"><div class="reveal"><span class="eyebrow">Sponsors &amp; partners</span><h2>Backed by people who believe in the work.</h2></div><div class="sponsor-strip" id="home-sponsors-strip" style="margin-top:var(--s5)"></div><div class="btn-row" style="margin-top:var(--s5)"><a class="btn btn--ghost" href="recognition.html">Awards &amp; partners</a></div></div></section>
 <section class="section section--maroon cta"><div class="container reveal"><h2>Let's make your next step clear.</h2><p class="lead" style="margin-inline:auto">A first conversation is free and without obligation.</p><div class="btn-row"><a class="btn btn--light" href="contact.html#book">Book a session</a><a class="btn btn--outline-light" href="https://wa.me/2349028391111" rel="noopener">Chat on WhatsApp</a></div></div></section>
 </main>
 <script src="js/config.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/site-data.js"></script>
 <script src="js/layout.js"></script>
+<script src="js/lightbox.js"></script>
+<script src="js/recognition.js"></script>
+<script src="js/reviews.js"></script>
 </body>
 </html>

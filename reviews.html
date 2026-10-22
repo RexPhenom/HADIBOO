@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reviews — Hadiboo</title>
+<meta name="description" content="Read and share ratings and reviews of Hadiboo programmes, mentorship and consulting.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://*.supabase.co; connect-src 'self' https://*.supabase.co https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#7f000c">
+<meta property="og:title" content="Reviews — Hadiboo"><meta property="og:description" content="Read and share ratings and reviews of Hadiboo programmes, mentorship and consulting."><meta property="og:image" content="assets/hadassah.jpg">
+<script src="js/theme.js"></script>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="reviews">
+<main id="main">
+<section class="page-head"><div class="container reveal"><span class="eyebrow">Reviews</span><h1>What people say about working with us.</h1>
+<p class="lead">Honest ratings and reviews from clients, mentees and partners.</p></div></section>
+<section class="section" style="padding-top:var(--s5)"><div class="container split">
+<div>
+<div class="card rating-summary" id="reviews-summary" style="margin-bottom:var(--s5)"><p>Loading reviews…</p></div>
+<div id="reviews-list" aria-busy="true" aria-live="polite"></div>
+<div class="btn-row"><button class="btn btn--ghost" id="reviews-more" type="button" hidden>Show more reviews</button></div>
+</div>
+<aside><form id="review-form" class="card" novalidate>
+<h3>Rate &amp; review us</h3>
+<p style="color:var(--ink-soft);font-size:var(--fs-sm)">Worked with Hadiboo? Tell others about your experience. Reviews appear once they have been checked.</p>
+<fieldset class="rate-input"><legend>Your rating</legend><div class="stars-pick">
+<input type="radio" name="rating" id="r5" value="5"><label for="r5" title="5 stars" aria-label="5 stars">★</label>
+<input type="radio" name="rating" id="r4" value="4"><label for="r4" title="4 stars" aria-label="4 stars">★</label>
+<input type="radio" name="rating" id="r3" value="3"><label for="r3" title="3 stars" aria-label="3 stars">★</label>
+<input type="radio" name="rating" id="r2" value="2"><label for="r2" title="2 stars" aria-label="2 stars">★</label>
+<input type="radio" name="rating" id="r1" value="1"><label for="r1" title="1 star" aria-label="1 star">★</label></div></fieldset>
+<label for="rv-name">Your name</label><input class="field" id="rv-name" name="name" maxlength="80" required autocomplete="name">
+<label for="rv-role">Role or organisation (optional)</label><input class="field" id="rv-role" name="role" maxlength="80">
+<label for="rv-comment">Your review</label><textarea class="field" id="rv-comment" name="comment" maxlength="600" required></textarea>
+<input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<div class="btn-row"><button class="btn btn--primary" type="submit">Submit review</button></div>
+<p id="review-msg" class="form-status" role="status" aria-live="polite"></p>
+</form></aside>
+</div></section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/site-data.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/reviews.js"></script>
+</body>
+</html>
