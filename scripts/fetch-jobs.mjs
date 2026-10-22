@@ -30,6 +30,7 @@ const seenDb = await readJson("seen.json", { seen: {} });
 const hash = (s) => { let h = 5381; for (const c of s) h = ((h << 5) + h + c.charCodeAt(0)) >>> 0; return h.toString(36); };
 const clean = (s = "") => String(s).replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
 const clip = (s, n = 220) => (s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s);
+const isNg = (l = "") => /nigeria|lagos|abuja|\bfct\b|port harcourt|kano|ibadan|enugu|uyo|akwa ibom|rivers|kaduna|benin city|abeokuta|ogun|oyo|delta|\bedo\b|anambra|\bimo\b|abia|cross river|calabar|plateau|\bjos\b|borno|maiduguri|bauchi|kwara|ilorin|osun|ondo|ekiti|nasarawa|\bniger\b|kebbi|sokoto|zamfara|katsina|jigawa|yobe|gombe|adamawa|taraba|benue|kogi|ebonyi|bayelsa|warri|onitsha|owerri|akure|asaba|lokoja|makurdi|minna|yola|abakaliki|ikeja|lekki|victoria island|ikoyi|ajah/i.test(l);
 const relevant = (j) => {
   const text = `${j.title} ${j.summary} ${j.organization}`.toLowerCase();
   return (cfg.keywords || []).length === 0 || cfg.keywords.some((k) => text.includes(k));
@@ -37,7 +38,7 @@ const relevant = (j) => {
 
 /* 1 — PRUNE (automatic deletion after TTL days) */
 const before = store.jobs.length;
-let jobs = store.jobs.filter((j) => now - new Date(j.addedAt) < TTL * DAY);
+let jobs = store.jobs.filter((j) => now - new Date(j.addedAt) < TTL * DAY && (j.source !== "Jooble" || isNg(j.location)));
 const removed = before - jobs.length;
 // forget "seen" ids after 30 days so memory stays small (a job older than that is long gone from sources)
 for (const [id, t] of Object.entries(seenDb.seen)) if (now - new Date(t) > 30 * DAY) delete seenDb.seen[id];
@@ -95,23 +96,30 @@ async function fromJooble() {
   };
   const size = String(j.resultsPerKeyword ?? 20), loc = j.location || "Nigeria";
   // Try progressively wider searches until Jooble returns something
+  const NG = "https://ng.jooble.org/api";
   const attempts = (kw) => [
     [{ keywords: kw, location: loc, page: "1", ResultOnPage: size, datecreatedfrom: from }, base],
     [{ keywords: kw, location: loc, page: "1", ResultOnPage: size }, base],
-    [{ keywords: `${kw} ${loc}`, page: "1", ResultOnPage: size }, base],
-    [{ keywords: kw, location: loc, page: "1", ResultOnPage: size }, "https://ng.jooble.org/api"],
+    [{ keywords: kw, page: "1", ResultOnPage: size }, NG],
+    [{ keywords: kw, location: loc, page: "1", ResultOnPage: size }, NG],
+    [{ keywords: kw, location: "Lagos", page: "1", ResultOnPage: size }, NG],
+    [{ keywords: kw, location: "Abuja", page: "1", ResultOnPage: size }, NG],
   ];
-  let firstEmpty = "";
+  let firstEmpty = ""; const tried = {};
   for (const kw of j.keywords || []) {
     let data = null;
     for (const [b, url] of attempts(kw)) {
       try { data = await post(b, url); } catch (e) { notes.push("Request failed: " + e.message); data = null; }
-      if (data && (data.jobs || []).length) break;
+      const ngOnly = data ? (data.jobs || []).filter((x) => isNg(x.location)) : [];
+      if (!tried[kw]) tried[kw] = [];
+      tried[kw].push(`${url.includes("ng.") ? "ng" : "com"}:${b.location || "-"}=${data ? (data.jobs || []).length : "err"}/${ngOnly.length}`);
+      if (data && ngOnly.length) { data = { ...data, jobs: ngOnly }; break; }
+      if (data) data = { ...data, jobs: [] };
       if (data && !firstEmpty) firstEmpty = JSON.stringify(data).slice(0, 160);
     }
     if (!data) continue;
     for (const it of data.jobs || []) {
-      if (!it.link || !it.title) continue;
+      if (!it.link || !it.title || !isNg(it.location)) continue;     // Nigeria only
       incoming.push({
         id: "jo-" + (it.id ? String(it.id) : hash(it.link)), title: clean(it.title), organization: clean(it.company),
         location: clean(it.location), type: clean(it.type), summary: clip(clean(it.snippet)), url: it.link, source: "Jooble",
@@ -119,7 +127,7 @@ async function fromJooble() {
     }
     total += (data.jobs || []).length;
   }
-  if (!total && firstEmpty) notes.push("Jooble replied with no jobs: " + firstEmpty);
+  if (!total) notes.push("No Nigerian jobs found. Attempts (endpoint:location=returned/Nigerian): " + JSON.stringify(Object.values(tried)[0] || []) + " " + firstEmpty);
   status.sources.jooble = `${total} fetched` + (notes.length ? "; problems: " + notes.slice(0, 4).join(" | ") : "");
   console.log(`• Jooble: ${total} fetched`, notes.length ? notes : "");
 }
