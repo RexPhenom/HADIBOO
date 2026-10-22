@@ -6,7 +6,7 @@
     ["index.html", "Home", "home"], ["about.html", "About", "about"], ["services.html", "Services", "services"],
     ["career.html", "Career", "career"], ["jobs.html", "Jobs", "jobs"], ["contact.html", "Contact", "contact"],
   ];
-  const more = [["gallery.html", "Gallery", "gallery"], ["recognition.html", "Awards & Partners", "recognition"], ["reviews.html", "Reviews", "reviews"]];
+  const more = [["courses.html", "Courses", "courses"], ["gallery.html", "Gallery", "gallery"], ["recognition.html", "Awards & Partners", "recognition"], ["reviews.html", "Reviews", "reviews"]];
   const li = ([h, t, k]) => `<li><a href="${h}"${k === page ? ' aria-current="page"' : ""}>${t.replace("&", "&amp;")}</a></li>`;
   const moreActive = more.some((m) => m[2] === page);
   const nav = main.map(li).join("");
@@ -40,6 +40,7 @@
         <div><h4>Explore</h4><ul>${navAll}</ul></div>
         <div><h4>Work with us</h4><ul>
           <li><a href="career.html">Career development</a></li>
+          <li><a href="courses.html">Courses</a></li>
           <li><a href="services.html#s5">Public health support</a></li>
           <li><a href="services.html#s4">Training &amp; speaking</a></li>
           <li><a href="recognition.html#sponsors">Become a sponsor</a></li>
