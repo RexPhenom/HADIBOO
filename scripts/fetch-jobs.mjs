@@ -30,7 +30,7 @@ const seenDb = await readJson("seen.json", { seen: {} });
 const hash = (s) => { let h = 5381; for (const c of s) h = ((h << 5) + h + c.charCodeAt(0)) >>> 0; return h.toString(36); };
 const clean = (s = "") => String(s).replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
 const clip = (s, n = 220) => (s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s);
-const isNg = (l = "") => /nigeria|lagos|abuja|\bfct\b|port harcourt|kano|ibadan|enugu|uyo|akwa ibom|rivers|kaduna|benin city|abeokuta|ogun|oyo|delta|\bedo\b|anambra|\bimo\b|abia|cross river|calabar|plateau|\bjos\b|borno|maiduguri|bauchi|kwara|ilorin|osun|ondo|ekiti|nasarawa|\bniger\b|kebbi|sokoto|zamfara|katsina|jigawa|yobe|gombe|adamawa|taraba|benue|kogi|ebonyi|bayelsa|warri|onitsha|owerri|akure|asaba|lokoja|makurdi|minna|yola|abakaliki|ikeja|lekki|victoria island|ikoyi|ajah/i.test(l);
+const isNg = (l = "") => /\b(nigeria|lagos|abuja|fct|port harcourt|kano|ibadan|enugu|uyo|akwa ibom|rivers|kaduna|benin city|abeokuta|ogun|oyo|delta|edo|anambra|imo|abia|cross river|calabar|plateau|jos|borno|maiduguri|bauchi|kwara|ilorin|osun|ondo|ekiti|nasarawa|niger|kebbi|sokoto|zamfara|katsina|jigawa|yobe|gombe|adamawa|taraba|benue|kogi|ebonyi|bayelsa|warri|onitsha|owerri|akure|asaba|lokoja|makurdi|minna|yola|abakaliki|ikeja|lekki|victoria island|ikoyi|ajah)\b/i.test(l);
 const relevant = (j) => {
   const text = `${j.title} ${j.summary} ${j.organization}`.toLowerCase();
   return (cfg.keywords || []).length === 0 || cfg.keywords.some((k) => text.includes(k));
