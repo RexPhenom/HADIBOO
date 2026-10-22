@@ -44,12 +44,13 @@ for (const [id, t] of Object.entries(seenDb.seen)) if (now - new Date(t) > 30 * 
 
 /* 2 — FETCH */
 const incoming = [];
+const status = { ranAt: now.toISOString(), sources: {} };
 
 async function fromReliefWeb() {
   const r = cfg.reliefweb;
   const appname = process.env.RELIEFWEB_APPNAME;
   if (!r?.enabled) return;
-  if (!appname) { console.warn("• ReliefWeb skipped: set RELIEFWEB_APPNAME secret."); return; }
+  if (!appname) { status.sources.reliefweb = "SKIPPED: RELIEFWEB_APPNAME not set (optional)"; console.warn("• ReliefWeb skipped: set RELIEFWEB_APPNAME secret."); return; }
   const body = {
     limit: r.limit ?? 40,
     preset: "latest",
@@ -75,24 +76,28 @@ async function fromReliefWeb() {
       closing: f.date?.closing ? new Date(f.date.closing).toDateString().slice(4) : "",
     });
   }
-  console.log(`• ReliefWeb: ${data.data?.length ?? 0} fetched`);
+  console.log(`• ReliefWeb: ${data.data?.length ?? 0} fetched`); status.sources.reliefweb = `${data.data?.length ?? 0} fetched`;
 }
 
 async function fromJooble() {
   const j = cfg.jooble;
-  const key = process.env.JOOBLE_API_KEY;
-  if (!j?.enabled) return;
-  if (!key) { console.warn("• Jooble skipped: set JOOBLE_API_KEY secret."); return; }
+  const key = (process.env.JOOBLE_API_KEY || "").trim();
+  if (!j?.enabled) { status.sources.jooble = "disabled in sources.json"; return; }
+  if (!key) { status.sources.jooble = "SKIPPED: JOOBLE_API_KEY secret is missing or empty"; console.warn("• Jooble skipped: set JOOBLE_API_KEY secret."); return; }
   const base = process.env.JOOBLE_BASE || "https://jooble.org/api";
   const from = new Date(+now - TTL * DAY).toISOString().slice(0, 10);
-  let total = 0;
+  let total = 0; const notes = [];
+  const ask = async (kw, withDate) => {
+    const body = { keywords: kw, location: j.location || "Nigeria", page: "1", ResultOnPage: String(j.resultsPerKeyword ?? 20) };
+    if (withDate) body.datecreatedfrom = from;
+    const res = await fetch(`${base}/${encodeURIComponent(key)}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!res.ok) { notes.push(`"${kw}" HTTP ${res.status} ${(await res.text()).slice(0, 80)}`); return null; }
+    return res.json();
+  };
   for (const kw of j.keywords || []) {
-    const res = await fetch(`${base}/${encodeURIComponent(key)}`, {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ keywords: kw, location: j.location || "Nigeria", page: "1", ResultOnPage: String(j.resultsPerKeyword ?? 20), datecreatedfrom: from }),
-    });
-    if (!res.ok) { console.warn(`• Jooble "${kw}" error ${res.status}`); continue; }
-    const data = await res.json();
+    let data = await ask(kw, true);
+    if (data && !(data.jobs || []).length) data = (await ask(kw, false)) || data;   // retry without the date filter
+    if (!data) continue;
     for (const it of data.jobs || []) {
       if (!it.link || !it.title) continue;
       incoming.push({
@@ -102,7 +107,8 @@ async function fromJooble() {
     }
     total += (data.jobs || []).length;
   }
-  console.log(`• Jooble: ${total} fetched`);
+  status.sources.jooble = `${total} fetched` + (notes.length ? "; problems: " + notes.slice(0, 4).join(" | ") : "");
+  console.log(`• Jooble: ${total} fetched`, notes.length ? notes : "");
 }
 
 async function fromRss(feed) {
@@ -125,8 +131,8 @@ async function fromManual() {
   if (manual.length) console.log(`• Manual: ${manual.length} entries`);
 }
 
-try { await fromJooble(); } catch (e) { console.warn("• Jooble failed:", e.message); }
-try { await fromReliefWeb(); } catch (e) { console.warn("• ReliefWeb failed:", e.message); }
+try { await fromJooble(); } catch (e) { status.sources.jooble = "FAILED: " + e.message; console.warn("• Jooble failed:", e.message); }
+try { await fromReliefWeb(); } catch (e) { status.sources.reliefweb = "FAILED: " + e.message; console.warn("• ReliefWeb failed:", e.message); }
 for (const f of cfg.rss || []) { try { await fromRss(f); } catch (e) { console.warn(`• RSS ${f.name} failed:`, e.message); } }
 await fromManual();
 
@@ -149,6 +155,8 @@ jobs.sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt));
 const out = { updatedAt: now.toISOString(), ttlDays: TTL, jobs };
 console.log(`Jobs: +${added} added, -${removed} expired, ${jobs.length} live.`);
 if (dry) { console.log(JSON.stringify(out, null, 2).slice(0, 1500)); process.exit(0); }
+status.summary = `+${added} added, -${removed} expired, ${jobs.length} live`;
+await writeFile(P("run-log.json"), JSON.stringify(status, null, 2) + "\n");
 await writeFile(P("jobs.json"), JSON.stringify(out, null, 2) + "\n");
 await writeFile(P("seen.json"), JSON.stringify(seenDb, null, 2) + "\n");
 // Manual list is a one-shot inbox: clear it once ingested so entries don't linger in the repo.
