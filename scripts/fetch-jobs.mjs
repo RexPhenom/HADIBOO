@@ -87,16 +87,28 @@ async function fromJooble() {
   const base = process.env.JOOBLE_BASE || "https://jooble.org/api";
   const from = new Date(+now - TTL * DAY).toISOString().slice(0, 10);
   let total = 0; const notes = [];
-  const ask = async (kw, withDate) => {
-    const body = { keywords: kw, location: j.location || "Nigeria", page: "1", ResultOnPage: String(j.resultsPerKeyword ?? 20) };
-    if (withDate) body.datecreatedfrom = from;
-    const res = await fetch(`${base}/${encodeURIComponent(key)}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    if (!res.ok) { notes.push(`"${kw}" HTTP ${res.status} ${(await res.text()).slice(0, 80)}`); return null; }
-    return res.json();
+  const post = async (b, url) => {
+    const res = await fetch(`${url}/${encodeURIComponent(key)}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(b) });
+    const text = await res.text();
+    if (!res.ok) { notes.push(`HTTP ${res.status} ${text.slice(0, 100)}`); return null; }
+    try { return JSON.parse(text); } catch { notes.push("Not JSON: " + text.slice(0, 100)); return null; }
   };
+  const size = String(j.resultsPerKeyword ?? 20), loc = j.location || "Nigeria";
+  // Try progressively wider searches until Jooble returns something
+  const attempts = (kw) => [
+    [{ keywords: kw, location: loc, page: "1", ResultOnPage: size, datecreatedfrom: from }, base],
+    [{ keywords: kw, location: loc, page: "1", ResultOnPage: size }, base],
+    [{ keywords: `${kw} ${loc}`, page: "1", ResultOnPage: size }, base],
+    [{ keywords: kw, location: loc, page: "1", ResultOnPage: size }, "https://ng.jooble.org/api"],
+  ];
+  let firstEmpty = "";
   for (const kw of j.keywords || []) {
-    let data = await ask(kw, true);
-    if (data && !(data.jobs || []).length) data = (await ask(kw, false)) || data;   // retry without the date filter
+    let data = null;
+    for (const [b, url] of attempts(kw)) {
+      try { data = await post(b, url); } catch (e) { notes.push("Request failed: " + e.message); data = null; }
+      if (data && (data.jobs || []).length) break;
+      if (data && !firstEmpty) firstEmpty = JSON.stringify(data).slice(0, 160);
+    }
     if (!data) continue;
     for (const it of data.jobs || []) {
       if (!it.link || !it.title) continue;
@@ -107,6 +119,7 @@ async function fromJooble() {
     }
     total += (data.jobs || []).length;
   }
+  if (!total && firstEmpty) notes.push("Jooble replied with no jobs: " + firstEmpty);
   status.sources.jooble = `${total} fetched` + (notes.length ? "; problems: " + notes.slice(0, 4).join(" | ") : "");
   console.log(`• Jooble: ${total} fetched`, notes.length ? notes : "");
 }
