@@ -52,6 +52,7 @@
       "project coordinator",
       "graduate trainee",
       "career development"
-    ]
+    ],
+    "anyCountry": true
   }
 }
