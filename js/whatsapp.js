@@ -26,6 +26,7 @@
         <label for="wa-note">Anything to add? <em>(optional)</em></label><textarea id="wa-note" class="field" rows="2" placeholder="Tell us a bit more…"></textarea>
         <button type="button" class="btn btn--primary wa-send" id="wa-send">Continue on WhatsApp</button>
         <small>This opens WhatsApp with your message ready — just tap Send.</small>
+        ${C.email ? `<a class="wa-mail" href="mailto:${C.email}">Prefer email? Write to ${C.email}</a>` : `<a class="wa-mail" href="contact.html#book">Prefer email? Use the contact form</a>`}
       </div>
     </section>
     <button type="button" class="wa-fab" id="wa-fab" aria-label="Chat on WhatsApp" aria-expanded="false" aria-controls="wa-panel">
@@ -63,6 +64,7 @@
       note ? `Details: ${note}` : "",
       `(Sent from your website — ${document.title.split(" — ")[0] || "Hadiboo"} page)`,
     ].filter(Boolean).join("\n");
+    if (window.hadibooLogEnquiry) hadibooLogEnquiry({ name, topic: chosen || "General enquiry", message: note, channel: "whatsapp" });
     window.open(`https://wa.me/${C.whatsapp}?text=${encodeURIComponent(lines)}`, "_blank", "noopener");
     open(false);
   });

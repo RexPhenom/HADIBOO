@@ -16,10 +16,16 @@
     jobs = (data.jobs || data || []);
   } catch (e) { list.innerHTML = `<div class="empty">We couldn't load jobs right now. Please refresh in a moment.</div>`; return; }
 
+  if (!demo && window.HADIBOO_SB_ON) {
+    try {
+      const r = await hadibooApi("hadiboo_jobs?select=*&order=added_at.desc&limit=200");
+      if (r.ok) (await r.json()).forEach((x) => jobs.push({ id: "sb-" + x.id, title: x.title, organization: x.organization, location: x.location, type: x.type, summary: x.summary, url: x.url, closing: x.closing, source: x.source, addedAt: x.added_at, expiresAt: x.expires_at }));
+    } catch (_) {}
+  }
   const now = Date.now();
   if (demo) jobs = jobs.map((j, i) => ({ ...j, addedAt: new Date(now - i * 0.9 * DAY).toISOString() }));
   jobs = jobs
-    .map((j) => ({ ...j, _added: Date.parse(j.addedAt), _exp: Date.parse(j.addedAt) + TTL * DAY }))
+    .map((j) => ({ ...j, _added: Date.parse(j.addedAt), _exp: j.expiresAt ? Date.parse(j.expiresAt) : Date.parse(j.addedAt) + TTL * DAY }))
     .filter((j) => j._exp > now);
 
   const types = [...new Set(jobs.map((j) => j.type).filter(Boolean))].sort();
