@@ -96,14 +96,11 @@ async function fromJooble() {
   };
   const size = String(j.resultsPerKeyword ?? 20), loc = j.location || "Nigeria";
   // Try progressively wider searches until Jooble returns something
-  const NG = "https://ng.jooble.org/api";
   const attempts = (kw) => [
     [{ keywords: kw, location: loc, page: "1", ResultOnPage: size, datecreatedfrom: from }, base],
     [{ keywords: kw, location: loc, page: "1", ResultOnPage: size }, base],
-    [{ keywords: kw, page: "1", ResultOnPage: size }, NG],
-    [{ keywords: kw, location: loc, page: "1", ResultOnPage: size }, NG],
-    [{ keywords: kw, location: "Lagos", page: "1", ResultOnPage: size }, NG],
-    [{ keywords: kw, location: "Abuja", page: "1", ResultOnPage: size }, NG],
+    ...["Lagos", "Abuja", "Port Harcourt", "Nigeria, Lagos", "Ibadan"].map((l) => [{ keywords: kw, location: l, page: "1", ResultOnPage: size }, base]),
+    [{ keywords: kw + " Nigeria", page: "1", ResultOnPage: size }, base],
   ];
   let firstEmpty = ""; const tried = {};
   for (const kw of j.keywords || []) {
@@ -112,7 +109,7 @@ async function fromJooble() {
       try { data = await post(b, url); } catch (e) { notes.push("Request failed: " + e.message); data = null; }
       const ngOnly = data ? (data.jobs || []).filter((x) => isNg(x.location)) : [];
       if (!tried[kw]) tried[kw] = [];
-      tried[kw].push(`${url.includes("ng.") ? "ng" : "com"}:${b.location || "-"}=${data ? (data.jobs || []).length : "err"}/${ngOnly.length}`);
+      tried[kw].push(`${b.location || "-"}=${data ? (data.jobs || []).length : "err"}/${ngOnly.length}`);
       if (data && ngOnly.length) { data = { ...data, jobs: ngOnly }; break; }
       if (data) data = { ...data, jobs: [] };
       if (data && !firstEmpty) firstEmpty = JSON.stringify(data).slice(0, 160);
