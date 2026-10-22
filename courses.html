@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Courses — Hadiboo</title>
+<meta name="description" content="Hand-picked courses to build your skills and career, shared by Hadiboo.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://*.supabase.co; connect-src 'self' https://*.supabase.co https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#7f000c">
+<meta property="og:title" content="Courses — Hadiboo"><meta property="og:description" content="Hand-picked courses to build your skills and career, shared by Hadiboo."><meta property="og:image" content="assets/hadassah.jpg">
+<script src="js/theme.js"></script>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="courses">
+<main id="main">
+<section class="page-head"><div class="container reveal"><span class="eyebrow">Courses</span><h1>Learn something that moves you forward.</h1>
+<p class="lead">Hand-picked courses shared by Hadassah-Esther to build your skills, career and impact. Each link takes you to the course provider.</p></div></section>
+<section class="section" style="padding-top:var(--s5)"><div class="container">
+<div class="job-filters" style="display:flex;flex-wrap:wrap;gap:var(--s3);margin-bottom:var(--s5)"><input class="field" id="course-q" type="search" placeholder="Search courses" aria-label="Search courses" style="flex:1 1 220px"><select class="field" id="course-cat" aria-label="Category" style="flex:0 1 220px"><option value="">All categories</option></select></div>
+<div class="grid grid-3" id="courses-list" aria-busy="true"></div>
+<div class="empty" id="courses-empty" hidden><img src="assets/logo-mark.png" alt=""><h3>New courses are coming soon</h3><p>Check back shortly, or tell us what you want to learn.</p><a class="btn btn--primary" href="contact.html#book">Get in touch</a></div>
+</div></section>
+</main>
+<script src="js/config.js"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/site-data.js"></script>
+<script src="js/layout.js"></script>
+<script src="js/courses.js"></script>
+</body>
+</html>
