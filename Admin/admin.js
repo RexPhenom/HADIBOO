@@ -128,8 +128,9 @@
     const [j, e, t, a, g, rv] = await Promise.all([
       count("hadiboo_jobs", (q) => q.gt("expires_at", new Date().toISOString()).eq("hidden", false)),
       count("hadiboo_enquiries", (q) => q.eq("status", "new")), count("hadiboo_testimonials", (q) => q.eq("approved", false)), count("hadiboo_admins"), count("hadiboo_gallery"), count("hadiboo_reviews", (q) => q.eq("approved", false))]);
+     let feedN = 0; try { const r = await fetch("../data/jobs.json", { cache: "no-store" }); if (r.ok) { const d = await r.json(); feedN = (d.jobs || []).filter((x) => !x.expiresAt || Date.parse(x.expiresAt) > Date.now()).length; } } catch (_) {}
     const s = (n, l) => el("div", { class: "stat" }, el("b", { text: n }), el("span", { text: l }));
-    box.append(el("div", { class: "stats" }, s(j, "Live jobs"), s(e, "New enquiries"), s(t, "Testimonials to approve"), s(a, "Admins"), s(g, "Gallery photos"), s(rv, "Reviews to approve")),
+    box.append(el("div", { class: "stats" }, s(j + feedN, "Live jobs"), s(e, "New enquiries"), s(t, "Testimonials to approve"), s(a, "Admins"), s(g, "Gallery photos"), s(rv, "Reviews to approve")),
       el("div", { class: "panel" }, el("h2", { text: "Quick guide" }), el("p", { text: "Jobs you add here are removed automatically 6 days after they are added. New enquiries from the website and the WhatsApp button land in Enquiries. Contact details and the site-wide announcement banner are under Site settings." })));
   }
 
@@ -160,6 +161,16 @@
       feed.replaceChildren(el("h2", { text: "Automatic job feed" }), el("p", { text: "Last run: " + fmt(d.ranAt) + " — " + (d.summary || "") }), el("ul", {}, rows),
         el("p", { class: "meta", text: "If Jooble says SKIPPED, add the JOOBLE_API_KEY secret in GitHub. If it shows an HTTP error, the key is wrong." }));
     }).catch(() => feed.replaceChildren(el("h2", { text: "Automatic job feed" }), el("p", { text: "No run report yet. In GitHub open Actions → Refresh jobs board → Run workflow (make sure the latest scripts/fetch-jobs.mjs is uploaded)." })));
+
+    /* ---- jobs added automatically by the feed (stored in the website's data/jobs.json) ---- */
+    const autoBox = el("div", { class: "panel" }, el("h2", { text: "Automatic jobs (live on the website)" }), el("p", { text: "Loading…" }));
+    fetch("../data/jobs.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : Promise.reject())).then((d) => {
+      const now = Date.now(), rows = (d.jobs || []).filter((j) => !j.expiresAt || Date.parse(j.expiresAt) > now);
+      autoBox.replaceChildren(el("h2", { text: "Automatic jobs (live on the website): " + rows.length }),
+        el("p", { class: "meta", text: "These come from the automatic feed and are removed 6 days after they are added. Jobs you add or import above are listed under All jobs." }),
+        ...(rows.length ? rows.slice(0, 100).map((j) => el("div", { class: "row-item" }, el("div", {}, el("h3", { text: j.title }), el("div", { class: "meta", text: [j.organization, j.location, j.source].filter(Boolean).join(" · ") }), el("div", { class: "meta", text: "Added " + fmt(j.addedAt) + " · expires " + fmt(new Date(Date.parse(j.addedAt) + 6 * DAY).toISOString()) })),
+          el("div", { class: "acts" }, el("a", { class: "btn btn--ghost btn--sm", href: j.url, target: "_blank", rel: "noopener noreferrer", text: "Open" })))) : [el("p", { text: "None right now." })]));
+    }).catch(() => autoBox.replaceChildren(el("h2", { text: "Automatic jobs" }), el("p", { text: "Could not read the automatic feed." })));
     /* ---- bulk import: paste rows from a spreadsheet, or choose a CSV file ---- */
     const COLS = ["title", "organization", "location", "type", "url", "closing", "summary", "source"];
     const parseRows = (text) => {
@@ -201,7 +212,7 @@
       el("p", { text: "Copy rows from Excel or Google Sheets and paste them here, or choose a CSV file. Column order: Title, Organisation, Location, Type, Apply link, Deadline, Summary, Source. Only Title and Apply link (https://) are required. A header row is fine; jobs already listed are skipped." }),
       el("label", { for: "jimp", text: "Paste rows" }), area, el("label", { for: "jcsv", text: "…or choose a CSV file" }), cfile, el("div", { class: "btn-row" }, ibtn), imsg);
     const holder = el("div", { class: "rows" });
-    box.append(feed, form, importPanel, el("div", { class: "panel" }, el("h2", { text: "All jobs" }), el("div", { class: "btn-row" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: "Delete expired now", onclick: async () => { await sb.rpc("hadiboo_purge_expired_jobs"); list(); } })), holder));
+    box.append(feed, autoBox, form, importPanel, el("div", { class: "panel" }, el("h2", { text: "All jobs" }), el("div", { class: "btn-row" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: "Delete expired now", onclick: async () => { await sb.rpc("hadiboo_purge_expired_jobs"); list(); } })), holder));
     async function list() {
       holder.replaceChildren();
       const { data, error } = await sb.from("hadiboo_jobs").select("*").order("added_at", { ascending: false }).limit(200);
