@@ -1,8 +1,8 @@
 {
-  "ranAt": "2026-10-22T22:40:43.576Z",
+  "ranAt": "2026-10-22T22:44:31.316Z",
   "sources": {
-    "jooble": "0 fetched; problems: No Nigerian jobs found. Attempts (endpoint:location=returned/Nigerian): [\"Nigeria=0/0\",\"Nigeria=0/0\",\"Lagos=0/0\",\"Abuja=0/0\",\"Port Harcourt=20/0\",\"Nigeria, Lagos=0/0\",\"Ibadan=0/0\",\"-=20/0\"] {\"totalCount\":0,\"jobs\":[]}",
+    "jooble": "128 fetched",
     "reliefweb": "SKIPPED: RELIEFWEB_APPNAME not set (optional)"
   },
-  "summary": "+0 added, -0 expired, 0 live"
+  "summary": "+40 added, -0 expired, 40 live"
 }
