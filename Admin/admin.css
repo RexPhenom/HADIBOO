@@ -52,3 +52,9 @@ select.field.sm { width: auto; min-height: 40px; padding: .4rem .7rem; font-size
 .row-item.gal { grid-template-columns: 96px 1fr auto; } .thumb { width: 96px; height: 72px; object-fit: cover; border-radius: 8px; background: var(--surface-2); }
 .gprevimg { max-width: 240px; max-height: 180px; border-radius: var(--radius-sm); margin-top: var(--s3); object-fit: cover; }
 @media (max-width: 860px) { .row-item.gal { grid-template-columns: 80px 1fr; } .row-item.gal .acts { grid-column: 1/-1; } }
+
+button.stat { text-align: left; font: inherit; cursor: pointer; transition: transform .2s, border-color .2s; } button.stat:hover { transform: translateY(-2px); border-color: var(--link); }
+.live-dot { width: 10px; height: 10px; border-radius: 50%; background: #1f8f4e; box-shadow: 0 0 0 0 rgba(31,143,78,.6); animation: pulse 2s infinite; } @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(31,143,78,0); } 100% { box-shadow: 0 0 0 0 rgba(31,143,78,0); } }
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+.stats { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 760px) { .stats { grid-template-columns: 1fr 1fr; } }

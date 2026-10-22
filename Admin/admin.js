@@ -125,13 +125,29 @@
   /* ---------- dashboard ---------- */
   async function dashboard(box) {
     box.append(el("h1", { text: "Dashboard" }));
-    const [j, e, t, a, g, rv] = await Promise.all([
-      count("hadiboo_jobs", (q) => q.gt("expires_at", new Date().toISOString()).eq("hidden", false)),
-      count("hadiboo_enquiries", (q) => q.eq("status", "new")), count("hadiboo_testimonials", (q) => q.eq("approved", false)), count("hadiboo_admins"), count("hadiboo_gallery"), count("hadiboo_reviews", (q) => q.eq("approved", false))]);
-     let feedN = 0; try { const r = await fetch("../data/jobs.json", { cache: "no-store" }); if (r.ok) { const d = await r.json(); feedN = (d.jobs || []).filter((x) => !x.expiresAt || Date.parse(x.expiresAt) > Date.now()).length; } } catch (_) {}
-    const s = (n, l) => el("div", { class: "stat" }, el("b", { text: n }), el("span", { text: l }));
-    box.append(el("div", { class: "stats" }, s(j + feedN, "Live jobs"), s(e, "New enquiries"), s(t, "Testimonials to approve"), s(a, "Admins"), s(g, "Gallery photos"), s(rv, "Reviews to approve")),
-      el("div", { class: "panel" }, el("h2", { text: "Quick guide" }), el("p", { text: "Jobs you add here are removed automatically 6 days after they are added. New enquiries from the website and the WhatsApp button land in Enquiries. Contact details and the site-wide announcement banner are under Site settings." })));
+    const stats = el("div", { class: "stats" }), activity = el("div", { class: "panel" }), stamp = el("p", { class: "meta" });
+    box.append(el("div", { class: "btn-row" }, el("span", { class: "live-dot", "aria-hidden": "true" }), stamp, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: "Refresh now", onclick: () => refresh() })), stats, activity);
+    const tile = (n, l, tab) => el("button", { type: "button", class: "stat", onclick: () => shell(tab) }, el("b", { text: n }), el("span", { text: l }));
+    async function refresh() {
+      try {
+        const nowIso = new Date().toISOString();
+        const [j, e, t, rv, g, aw, sp, co, a] = await Promise.all([
+          count("hadiboo_jobs", (q) => q.gt("expires_at", nowIso).eq("hidden", false)), count("hadiboo_enquiries", (q) => q.eq("status", "new")),
+          count("hadiboo_testimonials", (q) => q.eq("approved", false)), count("hadiboo_reviews", (q) => q.eq("approved", false)),
+          count("hadiboo_gallery"), count("hadiboo_awards"), count("hadiboo_sponsors"), count("hadiboo_courses"), count("hadiboo_admins")]);
+        let feedN = 0; try { const r = await fetch("../data/jobs.json?t=" + Date.now(), { cache: "no-store" }); if (r.ok) { const d = await r.json(); feedN = (d.jobs || []).filter((x) => !x.expiresAt || Date.parse(x.expiresAt) > Date.now()).length; } } catch (_) {}
+        stats.replaceChildren(tile(j + feedN, "Live jobs", "jobs"), tile(e, "New enquiries", "enquiries"), tile(rv, "Reviews to approve", "reviews"), tile(t, "Testimonials to approve", "testimonials"),
+          tile(co, "Courses", "courses"), tile(g, "Gallery photos", "gallery"), tile(aw, "Awards & certificates", "awards"), tile(sp, "Sponsors", "sponsors"), tile(a, "Admins", "admins"));
+        const [en, re] = await Promise.all([sb.from("hadiboo_enquiries").select("name,topic,channel,created_at").order("created_at", { ascending: false }).limit(6),
+          sb.from("hadiboo_reviews").select("name,rating,approved,created_at").order("created_at", { ascending: false }).limit(6)]);
+        const items = [...(en.data || []).map((x) => ({ at: x.created_at, text: `Enquiry from ${x.name} via ${x.channel} — ${x.topic || "General"}`, tab: "enquiries" })),
+          ...(re.data || []).map((x) => ({ at: x.created_at, text: `${x.rating}★ review from ${x.name}${x.approved ? "" : " (waiting for approval)"}`, tab: "reviews" }))].sort((p, q) => Date.parse(q.at) - Date.parse(p.at)).slice(0, 8);
+        activity.replaceChildren(el("h2", { text: "Latest activity from the website" }), ...(items.length ? items.map((i) => el("div", { class: "row-item" }, el("div", {}, el("h3", { text: i.text }), el("div", { class: "meta", text: fmt(i.at) })), el("div", { class: "acts" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: "Open", onclick: () => shell(i.tab) })))) : [el("p", { text: "Nothing yet. Enquiries, WhatsApp chats and reviews from visitors appear here as they arrive." })]));
+        stamp.textContent = "Live — updates every 20 seconds · last updated " + new Date().toLocaleTimeString("en-GB");
+      } catch (er) { stamp.textContent = "Could not refresh: " + (er && er.message || "network problem"); }
+    }
+    await refresh();
+    const timer = setInterval(() => { if (!box.isConnected) return clearInterval(timer); if (!document.hidden) refresh(); }, 20000);
   }
 
   /* ---------- jobs ---------- */
