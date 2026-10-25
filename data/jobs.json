@@ -1,7 +1,55 @@
 {
-  "updatedAt": "2026-10-25T11:28:27.698Z",
+  "updatedAt": "2026-10-25T16:18:37.414Z",
   "ttlDays": 6,
   "jobs": [
+    {
+      "id": "jo-3341174476256260000",
+      "title": "Medical Assistant",
+      "organization": "US Navy",
+      "location": "Ogden, IA",
+      "type": "",
+      "summary": "...commitments follow standard Navy Active and/or Reserve policies for this type of role, including basic pay, allowances when eligible, health coverage, and retirement options. Exact entitlements, special pays, and ser…",
+      "url": "https://jooble.org/jdp/3341174476256260232",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T16:18:37.414Z",
+      "expiresAt": "2026-10-31T16:18:37.414Z"
+    },
+    {
+      "id": "jo-9064897434476351000",
+      "title": "Sales Representative",
+      "organization": "Promoted2",
+      "location": "Harcourt, IA",
+      "type": "",
+      "summary": "...experience is preferred, especially in: High-ticket sales B2B sales Business development Insurance or financial services Health and wellness SaaS or technology Other performance-driven sales environments History of p…",
+      "url": "https://jooble.org/jdp/9064897434476350998",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T16:18:37.414Z",
+      "expiresAt": "2026-10-31T16:18:37.414Z"
+    },
+    {
+      "id": "jo-6942946296194806000",
+      "title": "Business Development Representative",
+      "organization": "Promoted2",
+      "location": "Rippey, IA",
+      "type": "",
+      "summary": "...results Your Background Previous sales experience is preferred, especially in: High-ticket sales B2B sales Business development Insurance or financial services Health and wellness SaaS or technology Other performance…",
+      "url": "https://jooble.org/jdp/6942946296194806227",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T16:18:37.414Z",
+      "expiresAt": "2026-10-31T16:18:37.414Z"
+    },
+    {
+      "id": "jo--993748352769962200",
+      "title": "Non-CDL Independent Contractor Truck Driver + $9,000 Sign-On Bonus",
+      "organization": "Hub Group Final Mile",
+      "location": "Dayton, IA",
+      "type": "",
+      "summary": "Job Description Hub Group Final Mile is Now Seeking Non-CDL Independent Contractors in Grimes, IA Driver Helper & 26' Box Truck with Liftgate Required Gross Up to $4,000 per Week per Truck - Home Daily - $9,000 Sign-On…",
+      "url": "https://jooble.org/jdp/-993748352769962271",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T16:18:37.414Z",
+      "expiresAt": "2026-10-31T16:18:37.414Z"
+    },
     {
       "id": "jo-9138378006517694000",
       "title": "Medical Assistant",
