@@ -1,7 +1,67 @@
 {
-  "updatedAt": "2026-10-25T04:40:50.498Z",
+  "updatedAt": "2026-10-25T11:28:27.698Z",
   "ttlDays": 6,
   "jobs": [
+    {
+      "id": "jo-9138378006517694000",
+      "title": "Medical Assistant",
+      "organization": "US Navy",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...commitments follow standard Navy Active and/or Reserve policies for this type of role, including basic pay, allowances when eligible, health coverage, and retirement options. Exact entitlements, special pays, and ser…",
+      "url": "https://jooble.org/jdp/9138378006517694838",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T11:28:27.698Z",
+      "expiresAt": "2026-10-31T11:28:27.698Z"
+    },
+    {
+      "id": "jo--3120486413452834300",
+      "title": "Non-CDL Independent Contractor Truck Driver + $9,000 Sign-On Bonus",
+      "organization": "Hub Group Final Mile",
+      "location": "Grand Junction, IA",
+      "type": "",
+      "summary": "Job Description Hub Group Final Mile is Now Seeking Non-CDL Independent Contractors in Grimes, IA Driver Helper & 26' Box Truck with Liftgate Required Gross Up to $4,000 per Week per Truck - Home Daily - $9,000 Sign-On…",
+      "url": "https://jooble.org/jdp/-3120486413452834447",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T11:28:27.698Z",
+      "expiresAt": "2026-10-31T11:28:27.698Z"
+    },
+    {
+      "id": "jo-2422849512936174600",
+      "title": "Shift Manager",
+      "organization": "McDonald's",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...day. We also fully support employees who stay home from work if they are feeling sick. Read more about the ways we are prioritizing health at McDonald's and its franchisees are always looking for top candidates and e…",
+      "url": "https://jooble.org/jdp/2422849512936174376",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T11:28:27.698Z",
+      "expiresAt": "2026-10-31T11:28:27.698Z"
+    },
+    {
+      "id": "jo-2369189487615268400",
+      "title": "CDL-A Anheuser-Busch Condo Fleet Truck Driver (50246)",
+      "organization": "C.R. England",
+      "location": "Stanhope, IA",
+      "type": "",
+      "summary": "...years of age or older ~3+ months of recent Class A CDL experience ~ This lane is not suitable for students, recent grads, or trainees Benefits: ~ Medical, Dental, Vision, HSA, FSA, Life and AD+D Insurance ~ PTO ~401(…",
+      "url": "https://jooble.org/jdp/2369189487615268506",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T11:28:27.698Z",
+      "expiresAt": "2026-10-31T11:28:27.698Z"
+    },
+    {
+      "id": "jo-7005719284275756000",
+      "title": "Business Development Representative",
+      "organization": "Promoted2",
+      "location": "Rinard, IA",
+      "type": "",
+      "summary": "...results Your Background Previous sales experience is preferred, especially in: High-ticket sales B2B sales Business development Insurance or financial services Health and wellness SaaS or technology Other performance…",
+      "url": "https://jooble.org/jdp/7005719284275755797",
+      "source": "Jooble",
+      "addedAt": "2026-10-25T11:28:27.698Z",
+      "expiresAt": "2026-10-31T11:28:27.698Z"
+    },
     {
       "id": "jo-1544066824416955000",
       "title": "Monitor Technician",
