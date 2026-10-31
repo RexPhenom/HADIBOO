@@ -1,7 +1,67 @@
 {
-  "updatedAt": "2026-10-30T22:19:39.689Z",
+  "updatedAt": "2026-10-31T05:40:07.690Z",
   "ttlDays": 6,
   "jobs": [
+    {
+      "id": "jo--6125312023871902000",
+      "title": "Medical Technician",
+      "organization": "US Navy",
+      "location": "Ogden, IA",
+      "type": "",
+      "summary": "...commitments follow standard Navy Active and/or Reserve policies for this type of role, including basic pay, allowances when eligible, health coverage, and retirement options. Exact entitlements, special pays, and ser…",
+      "url": "https://jooble.org/jdp/-6125312023871901784",
+      "source": "Jooble",
+      "addedAt": "2026-10-31T05:40:07.690Z",
+      "expiresAt": "2026-11-06T05:40:07.690Z"
+    },
+    {
+      "id": "jo--7649926963400230000",
+      "title": "Field Sales Consultant - Insurance Solutions",
+      "organization": "Platinum Supplemental Insurance",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...individuals, families, and businesses secure their financial futures through supplemental coverage. By bridging the gaps left by traditional health plans, Platinum’s products offer peace of mind when unexpected healt…",
+      "url": "https://jooble.org/jdp/-7649926963400230298",
+      "source": "Jooble",
+      "addedAt": "2026-10-31T05:40:07.690Z",
+      "expiresAt": "2026-11-06T05:40:07.690Z"
+    },
+    {
+      "id": "jo-1299493817906034700",
+      "title": "Policy Analyst",
+      "organization": "Partnership HealthPlan of California",
+      "location": "Redding, CA",
+      "type": "",
+      "summary": "Policy Analyst The Policy Analyst will be responsible for drafting, editing, reviewing, auditing, tracking, monitoring and maintaining policies and procedures for Partnership HealthPlan of California. Alongside designat…",
+      "url": "https://jooble.org/jdp/1299493817906034574",
+      "source": "Jooble",
+      "addedAt": "2026-10-31T05:40:07.690Z",
+      "expiresAt": "2026-11-06T05:40:07.690Z"
+    },
+    {
+      "id": "jo-4211077988061758500",
+      "title": "Paid Product Tester",
+      "organization": "Product Review Jobs",
+      "location": "Ogden, IA",
+      "type": "",
+      "summary": "Compensation: Varies per assignment. Up to $500 per week. Location: Remote (USA) Company: ProductReviewJobs Thank you for your interest in becoming a Paid Product Tester. This opportunity is for completing market resear…",
+      "url": "https://jooble.org/jdp/4211077988061758226",
+      "source": "Jooble",
+      "addedAt": "2026-10-31T05:40:07.690Z",
+      "expiresAt": "2026-11-06T05:40:07.690Z"
+    },
+    {
+      "id": "jo--6804036747010682000",
+      "title": "Travel Med Surg/Telemetry RN - $2,575 per week",
+      "organization": "Treva Workforce",
+      "location": "Fort Dodge, IA",
+      "type": "Temporary",
+      "summary": "Treva Workforce is seeking a travel nurse RN Med Surg / Telemetry for a travel nursing job in Fort Dodge, Iowa. Job Description & Requirements Specialty: Med Surg / Telemetry Discipline: RN Duration: 13 weeks 36 hours p…",
+      "url": "https://jooble.org/jdp/-6804036747010681713",
+      "source": "Jooble",
+      "addedAt": "2026-10-31T05:40:07.690Z",
+      "expiresAt": "2026-11-06T05:40:07.690Z"
+    },
     {
       "id": "jo--4361410620600205000",
       "title": "Public Policy Analyst | $60/hr",
@@ -2689,42 +2749,6 @@
       "source": "Jooble",
       "addedAt": "2026-10-25T11:28:27.698Z",
       "expiresAt": "2026-10-31T11:28:27.698Z"
-    },
-    {
-      "id": "jo-1544066824416955000",
-      "title": "Monitor Technician",
-      "organization": "UnityPoint Health",
-      "location": "Fort Dodge, IA",
-      "type": "",
-      "summary": "... Monitor Tech Monitor Tech Respiratory Therapist - Registered Medical Technologist Distance 5 mi 10 mi 15 mi 20 mi 25 mi 50 mi 75 mi 100 mi Job Seeker Sign In Employer Sign In Create an Account Select Saved Search (0…",
-      "url": "https://jooble.org/jdp/1544066824416954880",
-      "source": "Jooble",
-      "addedAt": "2026-10-25T04:40:50.498Z",
-      "expiresAt": "2026-10-31T04:40:50.498Z"
-    },
-    {
-      "id": "jo-901525418007450200",
-      "title": "Nuclear Policy Analyst",
-      "organization": "SAIC",
-      "location": "Richmond, VA",
-      "type": "",
-      "summary": "...simulation analysis (M&SA) and subject matter expertise. The candidate will also coordinate with the Military Services, Joint Staff, Office of the Secretary of War staffs, Department of War agencies, and National Lab…",
-      "url": "https://jooble.org/jdp/901525418007450179",
-      "source": "Jooble",
-      "addedAt": "2026-10-25T04:40:50.498Z",
-      "expiresAt": "2026-10-31T04:40:50.498Z"
-    },
-    {
-      "id": "jo--2747913211566351400",
-      "title": "Child Support Case Manager",
-      "organization": "State of Iowa",
-      "location": "Fort Dodge, IA",
-      "type": "",
-      "summary": "Child Support Case Manager The Iowa Department of Health and Human Services (HHS), Division of Community Access, Bureau of Child Support Services is seeking a Child Support Case Manager to join our team! At Child Suppor…",
-      "url": "https://jooble.org/jdp/-2747913211566351219",
-      "source": "Jooble",
-      "addedAt": "2026-10-25T04:40:50.498Z",
-      "expiresAt": "2026-10-31T04:40:50.498Z"
     }
   ]
 }
