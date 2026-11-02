@@ -1,7 +1,115 @@
 {
-  "updatedAt": "2026-11-02T06:01:36.022Z",
+  "updatedAt": "2026-11-02T15:51:44.965Z",
   "ttlDays": 6,
   "jobs": [
+    {
+      "id": "jo-4122207127029916700",
+      "title": "Nursing Aide",
+      "organization": "UnityPoint Health",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...includes a commitment to work one year (12 months) in a full-time status as a Registered Nurse at Unity Point at Home. Why UnityPoint Health? At UnityPoint Health, you matter. We’re proud to be recognized as a Top 15…",
+      "url": "https://jooble.org/jdp/4122207127029916420",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo-429522168438369860",
+      "title": "Occupational Therapist (OT) - Home Health - Travel",
+      "organization": "Protouch Staffing",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...Occupational Therapist (OT) - Home Health - Travel Gross Pay (weekly): $2758.0 Taxable Pay (weekly): 1512.0 Non-taxable Pay (weekly): 1246.0 Shift: Identifier: Days, Start: 8:00 AM, End: 4:30 PM, Hours: 8, Descriptio…",
+      "url": "https://jooble.org/jdp/429522168438369826",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo--8361454828233977000",
+      "title": "Project Officer II / III",
+      "organization": "The LiRo Group",
+      "location": "Long Island City, NY",
+      "type": "",
+      "summary": "...Project Officer II / III US-NY-Long Island City Job ID: 2023-2793 # of Openings: 2 Category: Construction Management The LiRo Group Overview We have an immediate need for a Project Officer II & III for our NYC locati…",
+      "url": "https://jooble.org/jdp/-8361454828233977084",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo--2618066298375850000",
+      "title": "Remote Product Tester - Flexible Studies",
+      "organization": "BuzzTesters",
+      "location": "Callender, IA",
+      "type": "",
+      "summary": "Type: Flexible, project-based Location: Remote (US) Pay: Earn up to $400/week, depending on the number and type of studies you complete. Share honest feedback on products and services from independent brands. Assignment…",
+      "url": "https://jooble.org/jdp/-2618066298375850157",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo-2290701536477773600",
+      "title": "Paid Product Tester",
+      "organization": "Arroyo Media",
+      "location": "Jefferson, IA",
+      "type": "",
+      "summary": "Compensation: Varies per assignment. Up to $500 per week. Location: Remote (USA) Company: ProductReviewJobs Thank you for your interest in becoming a Paid Product Tester. This opportunity is for completing market resear…",
+      "url": "https://jooble.org/jdp/2290701536477773606",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo-4500501032059109400",
+      "title": "Physician Hematology/Oncology - Competitive Salary",
+      "organization": "Mountain Medical Group",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...options considered (3 - 4.5 day work week) Varied case mix Physician-owned model allows autonomy and flexibility Welcoming community with large catchment area Nationally recognized and accredited Cancer Center ACS de…",
+      "url": "https://jooble.org/jdp/4500501032059109396",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo--2254098275873413600",
+      "title": "Helicopter Pilot",
+      "organization": "Air Methods Corporation",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...Methods seeks exceptional pilots to partner with us to serve our communities. We are committed to providing air medical transport... ...city boasts a rich history that is deeply intertwined with the development of th…",
+      "url": "https://jooble.org/jdp/-2254098275873413718",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo--1246484744544551400",
+      "title": "Welder - 1st Shift",
+      "organization": "KSI",
+      "location": "Jefferson, IA",
+      "type": "",
+      "summary": "...Jefferson, Iowa area is seeking dependable Welders to join its growing 1st Shift team.Whether you're an experienced welder or a recent graduate of a welding or technical program, this is an excellent opportunity to b…",
+      "url": "https://jooble.org/jdp/-1246484744544551488",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
+    {
+      "id": "jo--4980688531130702000",
+      "title": "Certified Registered Nurse Anesthetist (CRNA)",
+      "organization": "Summit Recruiting Group LLC",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...and communities we serve Excellent communication (written and verbal), analytical, and problem-solving skills Qualifications: Graduate of an Accredited School of Anesthesia for Nurses Board eligible or board certifie…",
+      "url": "https://jooble.org/jdp/-4980688531130702285",
+      "source": "Jooble",
+      "addedAt": "2026-11-02T15:51:44.965Z",
+      "expiresAt": "2026-11-08T15:51:44.965Z"
+    },
     {
       "id": "jo--3936744071692496000",
       "title": "Certified Occupational Therapist Assistant - Home Health",
@@ -2797,54 +2905,6 @@
       "source": "Jooble",
       "addedAt": "2026-10-27T18:02:05.256Z",
       "expiresAt": "2026-11-02T18:02:05.256Z"
-    },
-    {
-      "id": "jo-7635962750866119000",
-      "title": "Travel Nurse RN - Med Surg / Telemetry - $2,199 per week",
-      "organization": "TRS Healthcare",
-      "location": "Fort Dodge, IA",
-      "type": "",
-      "summary": "...across the U.S. in urban, rural, and underserved areas, including multi-state hospital systems, critical access hospitals, rural community hospitals, long-term care facilities, trauma centers, standalone clinics, and…",
-      "url": "https://jooble.org/jdp/7635962750866118344",
-      "source": "Jooble",
-      "addedAt": "2026-10-27T12:11:29.304Z",
-      "expiresAt": "2026-11-02T12:11:29.304Z"
-    },
-    {
-      "id": "jo-1541341861400729600",
-      "title": "Post Office Clerk - Ogden, IA - $26-$43/hr, Full Benefits",
-      "organization": "Postal Jobs Source",
-      "location": "Ogden, IA",
-      "type": "Full-time",
-      "summary": "Postal jobs in Ogden, IA – Clerk and other entry-level positions, no experience required The Postal Service currently employs nearly 1 Million people and is hiring nationwide. There are MANY different positions availabl…",
-      "url": "https://jooble.org/jdp/1541341861400729648",
-      "source": "Jooble",
-      "addedAt": "2026-10-27T12:11:29.304Z",
-      "expiresAt": "2026-11-02T12:11:29.304Z"
-    },
-    {
-      "id": "jo-8937475064989572000",
-      "title": "Post Office Clerk - Fort Dodge, IA - $26-$43/hr, Full Benefits",
-      "organization": "Postal Jobs Source",
-      "location": "Fort Dodge, IA",
-      "type": "Full-time",
-      "summary": "Postal Clerk – Fort Dodge, IA NO EXPERIENCE REQUIRED – PAID TRAINING PROVIDED – JOB SECURITY The Postal Service is the largest government related agency in terms of employees, currently employing nearly 1 million people…",
-      "url": "https://jooble.org/jdp/8937475064989571833",
-      "source": "Jooble",
-      "addedAt": "2026-10-27T12:11:29.304Z",
-      "expiresAt": "2026-11-02T12:11:29.304Z"
-    },
-    {
-      "id": "jo-6551694470964762000",
-      "title": "Business Development Representative",
-      "organization": "Promoted2",
-      "location": "Lohrville, IA",
-      "type": "",
-      "summary": "...results Your Background Previous sales experience is preferred, especially in: High-ticket sales B2B sales Business development Insurance or financial services Health and wellness SaaS or technology Other performance…",
-      "url": "https://jooble.org/jdp/6551694470964761783",
-      "source": "Jooble",
-      "addedAt": "2026-10-27T12:11:29.304Z",
-      "expiresAt": "2026-11-02T12:11:29.304Z"
     }
   ]
 }
