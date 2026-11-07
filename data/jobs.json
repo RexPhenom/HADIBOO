@@ -1,7 +1,19 @@
 {
-  "updatedAt": "2026-11-07T05:57:33.421Z",
+  "updatedAt": "2026-11-07T12:59:59.811Z",
   "ttlDays": 6,
   "jobs": [
+    {
+      "id": "jo--3561876901615654400",
+      "title": "Registered Nurse ($15k Sign-On Bonus!)",
+      "organization": "Central Maine Medical Center",
+      "location": "Greene County, IA",
+      "type": "",
+      "summary": "...Bonus Amount: Up to $20,000 for Registered Nurses with 2 or more consecutive years of RN experience. Up to $10,000 for New Graduate Registered Nurses Bonus Information: Sign-On Bonus Available for Qualified Candidate…",
+      "url": "https://jooble.org/jdp/-3561876901615654570",
+      "source": "Jooble",
+      "addedAt": "2026-11-07T12:59:59.811Z",
+      "expiresAt": "2026-11-13T12:59:59.811Z"
+    },
     {
       "id": "jo--6233346830495859000",
       "title": "Maintenance Manager",
@@ -1969,126 +1981,6 @@
       "source": "Jooble",
       "addedAt": "2026-11-01T13:24:29.224Z",
       "expiresAt": "2026-11-07T13:24:29.224Z"
-    },
-    {
-      "id": "jo-7309254027163263000",
-      "title": "Medical Assistant",
-      "organization": "US Navy",
-      "location": "Stratford, IA",
-      "type": "",
-      "summary": "...commitments follow standard Navy Active and/or Reserve policies for this type of role, including basic pay, allowances when eligible, health coverage, and retirement options. Exact entitlements, special pays, and ser…",
-      "url": "https://jooble.org/jdp/7309254027163262694",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo-2524227140544094000",
-      "title": "LTC CNA",
-      "organization": "CrossMed Healthcare",
-      "location": "Ogden, IA",
-      "type": "",
-      "summary": "...Benefits: ~ Competitive weekly pay ~ Insurance ( Health, Dental, Vision) ~ Life Insurance ~401(k) ~ Referral Bonus... ...Demands - capable of managing frequent interactions with the public and customers and meeting d…",
-      "url": "https://jooble.org/jdp/2524227140544094412",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo--3318272023517078500",
-      "title": "Certified Nursing Assistant (CNA) - Overnights",
-      "organization": "Shenandoah Accura Healthcare",
-      "location": "Ogden, IA",
-      "type": "",
-      "summary": "Accura HealthCare of Ogden is seeking Certified Nursing Assistants (CNAs) to join our Overnight Shift nursing team! With a high sense of integrity and compassion, CNAs provide person-centered care to our residents in a…",
-      "url": "https://jooble.org/jdp/-3318272023517078599",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo-8944570600470395000",
-      "title": "Occupational Therapist - Home Health",
-      "organization": "UnityPoint Health",
-      "location": "Fort Dodge, IA",
-      "type": "",
-      "summary": "...Overview $20,000.00 New Hire Sign-On Bonus! Shift: Monday - Friday | 8:00 AM - 4:30 PM As a Home Health Occupational Therapist, you deliver skilled, evidence-based care directly in patients’ homes, helping individual…",
-      "url": "https://jooble.org/jdp/8944570600470394943",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo--3051476407734866000",
-      "title": "Certified Nursing Assistant (CNA) - Overnights",
-      "organization": "Accura HealthCare",
-      "location": "Ogden, IA",
-      "type": "",
-      "summary": "Certified Nursing Assistant Accura HealthCare of Ogden is a 46-bed Skilled Nursing Facility (SNF) located in Ogden, IA. We embrace a unique, upside-down philosophy that places residents, patients, and direct care employ…",
-      "url": "https://jooble.org/jdp/-3051476407734866093",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo-8622211807304634000",
-      "title": "Production Supervisor, 2nd Shift",
-      "organization": "Iowa Ag",
-      "location": "Fort Dodge, IA",
-      "type": "",
-      "summary": "...Ensure production records, batch sheets, run sheets, shift reports, and related documentation are complete, accurate, and timely.* Monitor and communicate operating performance, risks, priorities, and required follow…",
-      "url": "https://jooble.org/jdp/8622211807304634823",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo-8444452798823808000",
-      "title": "Policy Development Analyst - Senior",
-      "organization": "Intermountain Health",
-      "location": "New York, NY",
-      "type": "",
-      "summary": "Job Description: Leads the development and implementation of health plans policies, which are used to develop adjudication rules, define coverage for benefits, program the claims payment system and develop provider reim…",
-      "url": "https://jooble.org/jdp/8444452798823807780",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo-7515758108154265000",
-      "title": "Medical Assistant",
-      "organization": "US Navy",
-      "location": "Grand Junction, IA",
-      "type": "",
-      "summary": "...commitments follow standard Navy Active and/or Reserve policies for this type of role, including basic pay, allowances when eligible, health coverage, and retirement options. Exact entitlements, special pays, and ser…",
-      "url": "https://jooble.org/jdp/7515758108154264700",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo--907119892283281300",
-      "title": "CDL-A Truck Driver - Sign On Bonus! (50212)",
-      "organization": "C.R. England",
-      "location": "Ogden, IA",
-      "type": "",
-      "summary": "...years of age or older ~3+ months of recent Class A CDL experience ~ This lane is not suitable for students, recent grads, or trainees Benefits: ~ Medical, Dental, Vision, HSA, FSA, Life and AD+D Insurance ~ PTO ~401(…",
-      "url": "https://jooble.org/jdp/-907119892283281295",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
-    },
-    {
-      "id": "jo-1198817612015459000",
-      "title": "Dedicated CDL-A Truck Driver - Home Weekly",
-      "organization": "CR England",
-      "location": "Fort Dodge, IA",
-      "type": "",
-      "summary": "...Bonus*** Valid CDL-A and 3+ months of current experience required This lane is not suitable for students, recent grads, or trainees This Dedicated Route Offers: ~ Home weekly for a 34-hour reset ~ Drivers average $98…",
-      "url": "https://jooble.org/jdp/1198817612015459106",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T06:04:00.389Z",
-      "expiresAt": "2026-11-07T06:04:00.389Z"
     }
   ]
 }
