@@ -1,7 +1,67 @@
 {
-  "updatedAt": "2026-11-07T12:59:59.811Z",
+  "updatedAt": "2026-11-07T21:50:10.789Z",
   "ttlDays": 6,
   "jobs": [
+    {
+      "id": "jo--1852367889222080000",
+      "title": "Sales and Service Agent Remote",
+      "organization": "HMG Careers",
+      "location": "Harcourt, IA",
+      "type": "",
+      "summary": "Job DescriptionJob DescriptionRemote Insurance Sales Representative | Flexible Schedule | Commission-BasedThis position offers flexible work hours and clear paths for advancement into leadership and management. You will…",
+      "url": "https://jooble.org/jdp/-1852367889222079933",
+      "source": "Jooble",
+      "addedAt": "2026-11-07T21:50:10.789Z",
+      "expiresAt": "2026-11-13T21:50:10.789Z"
+    },
+    {
+      "id": "jo--423743392959663700",
+      "title": "Travel Occupational Therapist (OT) in Fort Dodge, IA",
+      "organization": "Cynet Health",
+      "location": "Fort Dodge, IA",
+      "type": "Full-time",
+      "summary": "...Occupational Therapist Location: Fort Dodge, IA Agency: Cynet Health Pay: Competitive weekly pay (inquire for details) Shift Information: Days - 5 days x 8 hours Start Date: 11/23/2026 About the Position Job Title: O…",
+      "url": "https://jooble.org/jdp/-423743392959663658",
+      "source": "Jooble",
+      "addedAt": "2026-11-07T21:50:10.789Z",
+      "expiresAt": "2026-11-13T21:50:10.789Z"
+    },
+    {
+      "id": "jo-7954287431782391000",
+      "title": "Travel Physical Therapist (PT) in Fort Dodge, IA",
+      "organization": "Concentric Healthcare Staffing",
+      "location": "Fort Dodge, IA",
+      "type": "Full-time",
+      "summary": "Physical Therapist Location: Fort Dodge, IA Agency: Concentric Healthcare Staffing Pay: Competitive weekly pay (inquire for details) Shift Information: 8 hours Contract Duration: 13 Weeks Start Date: ASAP About the Posi…",
+      "url": "https://jooble.org/jdp/7954287431782390346",
+      "source": "Jooble",
+      "addedAt": "2026-11-07T21:50:10.789Z",
+      "expiresAt": "2026-11-13T21:50:10.789Z"
+    },
+    {
+      "id": "jo-4582329606013746700",
+      "title": "Travel Physical Therapist (PT) in Fort Dodge, IA",
+      "organization": "Cynet Health",
+      "location": "Fort Dodge, IA",
+      "type": "Full-time",
+      "summary": "...Physical Therapist Location: Fort Dodge, IA Agency: Cynet Health Pay: Competitive weekly pay (inquire for details)... ...delivery of services to patients according to the care plan and promotes patient independence t…",
+      "url": "https://jooble.org/jdp/4582329606013746588",
+      "source": "Jooble",
+      "addedAt": "2026-11-07T21:50:10.789Z",
+      "expiresAt": "2026-11-13T21:50:10.789Z"
+    },
+    {
+      "id": "jo-3203938372209408500",
+      "title": "Senior Associate - Clinical Development Sciences",
+      "organization": "Elanco",
+      "location": "Fort Dodge, IA",
+      "type": "",
+      "summary": "...individuals, and acquire new skills and experiences that will propel your career to new heights.Making animals’ lives better makes life better - join our team today!Your Role: Senior Associate - Clinical Development…",
+      "url": "https://jooble.org/jdp/3203938372209408338",
+      "source": "Jooble",
+      "addedAt": "2026-11-07T21:50:10.789Z",
+      "expiresAt": "2026-11-13T21:50:10.789Z"
+    },
     {
       "id": "jo--3561876901615654400",
       "title": "Registered Nurse ($15k Sign-On Bonus!)",
@@ -1921,66 +1981,6 @@
       "source": "Jooble",
       "addedAt": "2026-11-01T22:01:13.579Z",
       "expiresAt": "2026-11-07T22:01:13.579Z"
-    },
-    {
-      "id": "jo-8698269404207016000",
-      "title": "Certified Nursing Assistant (CNA)",
-      "organization": "Shenandoah Accura Healthcare",
-      "location": "Ogden, IA",
-      "type": "",
-      "summary": "Accura HealthCare of Ogden is seeking Certified Nursing Assistants (CNAs) to join our nursing team! With a high sense of integrity and compassion, CNAs provide person-centered care to our residents in a caring and suppo…",
-      "url": "https://jooble.org/jdp/8698269404207016430",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T13:24:29.224Z",
-      "expiresAt": "2026-11-07T13:24:29.224Z"
-    },
-    {
-      "id": "jo-8824953862632797000",
-      "title": "Audit Policy Analyst, Post-Acute Services",
-      "organization": "Machinify",
-      "location": "Oregon State",
-      "type": "",
-      "summary": "...independently and in a remote environment, delivering results on time. Computer Equipment and Software Proficient in Windows office systems, including the full Microsoft Suite (Excel, Word, Outlook, PowerPoint, Share…",
-      "url": "https://jooble.org/jdp/8824953862632797180",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T13:24:29.224Z",
-      "expiresAt": "2026-11-07T13:24:29.224Z"
-    },
-    {
-      "id": "jo--6141464247287346000",
-      "title": "Policy Development Analyst - Senior",
-      "organization": "Intermountain Health",
-      "location": "Oregon State",
-      "type": "",
-      "summary": "Job Description: Leads the development and implementation of health plans policies, which are used to develop adjudication rules, define coverage for benefits, program the claims payment system and develop provider reim…",
-      "url": "https://jooble.org/jdp/-6141464247287346595",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T13:24:29.224Z",
-      "expiresAt": "2026-11-07T13:24:29.224Z"
-    },
-    {
-      "id": "jo-977915656984967000",
-      "title": "Policy Analyst III",
-      "organization": "Virtual Vocations Inc",
-      "location": "United States",
-      "type": "",
-      "summary": "To support the ARX Policy team within the CDC Division of Healthcare Quality Promotion, the full-time remote Policy Analyst III will develop policy documents, respond to congressional inquiries, and coordinate activitie…",
-      "url": "https://jooble.org/jdp/977915656984967102",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T13:24:29.224Z",
-      "expiresAt": "2026-11-07T13:24:29.224Z"
-    },
-    {
-      "id": "jo-9197798798243352000",
-      "title": "Paid Product Tester",
-      "organization": "Arroyo Media",
-      "location": "Stanhope, IA",
-      "type": "",
-      "summary": "Compensation: Varies per assignment. Up to $500 per week. Location: Remote (USA) Company: ProductReviewJobs Thank you for your interest in becoming a Paid Product Tester. This opportunity is for completing market resear…",
-      "url": "https://jooble.org/jdp/9197798798243351462",
-      "source": "Jooble",
-      "addedAt": "2026-11-01T13:24:29.224Z",
-      "expiresAt": "2026-11-07T13:24:29.224Z"
     }
   ]
 }
