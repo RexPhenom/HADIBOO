@@ -1,8 +1,8 @@
 {
-  "ranAt": "2026-11-11T19:35:34.220Z",
+  "ranAt": "2026-11-12T07:09:52.712Z",
   "sources": {
-    "jooble": "134 fetched",
+    "jooble": "133 fetched",
     "reliefweb": "SKIPPED: RELIEFWEB_APPNAME not set (optional)"
   },
-  "summary": "+11 added, -11 expired, 154 live"
+  "summary": "+18 added, -27 expired, 145 live"
 }
