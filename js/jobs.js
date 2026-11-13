@@ -36,6 +36,7 @@
     return d >= 1 ? `${d} day${d > 1 ? "s" : ""} ${h}h` : `${Math.max(h, 1)}h`;
   }
 
+  const PAGE = 20; let shown = PAGE;
   function render() {
     const term = q.value.trim().toLowerCase();
     let out = jobs.filter((j) => (!type.value || j.type === type.value) && (!term || [j.title, j.organization, j.location, j.summary].join(" ").toLowerCase().includes(term)));
@@ -45,6 +46,7 @@
       list.innerHTML = `<div class="empty"><img src="assets/logo-mark.png" alt=""><h3>No roles match right now</h3><p>New public-health jobs are added automatically. Check back soon, or clear your filters.</p></div>`;
       return;
     }
+    const total = out.length; out = out.slice(0, shown);
     list.innerHTML = out.map((j) => {
       const fresh = now - j._added < 1.5 * DAY, soon = j._exp - now < 1.5 * DAY;
       return `<article class="job">
@@ -58,7 +60,14 @@
         <a class="btn btn--primary" href="${esc(j.url)}" target="_blank" rel="noopener noreferrer">View &amp; apply</a>
       </article>`;
     }).join("");
+    if (total > shown) {
+      const wrap = document.createElement("div"); wrap.className = "jobs-more";
+      const b = document.createElement("button"); b.type = "button"; b.className = "btn btn--ghost";
+      b.textContent = `Show more roles (${total - shown} left)`;
+      b.addEventListener("click", () => { shown += PAGE; render(); });
+      wrap.append(b); list.append(wrap);
+    }
   }
-  [q, type, sort].forEach((el) => el.addEventListener("input", render));
+  [q, type, sort].forEach((el) => el.addEventListener("input", () => { shown = PAGE; render(); }));
   render();
 })();

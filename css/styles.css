@@ -450,3 +450,8 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 .wa-mail { display: block; margin-top: .6rem; font-size: var(--fs-sm); font-weight: 700; text-align: center; color: var(--link); text-decoration: underline; }
 [hidden] { display: none !important; }
 .course { display: flex; flex-direction: column; } .course-body { display: flex; flex-direction: column; gap: .5rem; flex: 1; } .course-body h3 { margin: 0; } .course-body p { margin: 0; color: var(--ink-soft); font-size: var(--fs-sm); } .course-body .btn { margin-top: auto; align-self: flex-start; }
+
+/* fixes: readable Jooble shortcut chips (dark text on cream), job list paging, tidier hero on phones */
+.jb .links a { color: #5c000a; }
+.jobs-more { display: flex; justify-content: center; margin: var(--s5) 0 var(--s6); }
+@media (max-width: 760px) { .hero-art .chip { display: none; } }
