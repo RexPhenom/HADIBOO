@@ -1,8 +1,8 @@
 {
-  "ranAt": "2026-11-14T22:23:58.165Z",
+  "ranAt": "2026-11-15T06:30:47.086Z",
   "sources": {
-    "jooble": "30 fetched; problems: HTTP 429 {\"errorCode\":5,\"statusCode\":429,\"message\":\"Daily request limit exceeded\",\"details\":\"\"} | HTTP 429 {\"errorCode\":5,\"statusCode\":429,\"message\":\"Daily request limit exceeded\",\"details\":\"\"} | HTTP 429 {\"errorCode\":5,\"statusCode\":429,\"message\":\"Daily request limit exceeded\",\"details\":\"\"} | HTTP 429 {\"errorCode\":5,\"statusCode\":429,\"message\":\"Daily request limit exceeded\",\"details\":\"\"}",
+    "jooble": "135 fetched",
     "reliefweb": "SKIPPED: RELIEFWEB_APPNAME not set (optional)"
   },
-  "summary": "+2 added, -8 expired, 176 live"
+  "summary": "+13 added, -24 expired, 165 live"
 }
