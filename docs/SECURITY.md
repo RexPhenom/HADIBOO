@@ -27,3 +27,17 @@
 - GitHub Pages cannot send HTTP security headers, so CSP is applied via `<meta>` (`frame-ancestors` can't be set that way, so the admin page refuses to run inside any frame via a script check instead). For stronger headers put the site behind Cloudflare (free) or host on Netlify/Vercel.
 - The public enquiry form is open by design; spam is limited by field-length checks and a honeypot. If spam appears, add Cloudflare Turnstile.
 - The jobs automatically imported by the GitHub Action live in `data/jobs.json` (public by nature). Jobs you add in the admin live in Supabase.
+
+## Update — November 2026
+- Public pages: Content-Security-Policy no longer allows inline scripts (`script-src 'self'`), blocks framing/workers/plugins, and upgrades insecure requests. The contact page's inline script moved to `js/contact-direct.js`.
+- Every page refuses to be shown inside another site (frame check in `js/theme.js`; admin has its own).
+- Database: internal helper functions (`hadiboo_review_defaults`, `hadiboo_throttle`, `hadiboo_purge_expired_jobs`) are not callable by visitors; `hadiboo_keep_one_admin` has a fixed search path. See `supabase/hardening.sql`.
+- Visitors can only insert enquiries and reviews (column-limited, rate-limited); they cannot read enquiries or unapproved reviews.
+- Animations ignore the device's "reduce motion" setting by request.
+
+## Still worth doing (needs your Supabase / GitHub dashboards)
+1. Supabase → Authentication → Providers/Password: turn on **Leaked password protection** and set minimum length 10+.
+2. Turn on **MFA (authenticator app)** for the admin accounts when you can.
+3. GitHub: enable two-factor sign-in on the RexPhenom account and turn on **Dependabot/secret scanning** in the repo's Security settings.
+4. Admin loads one library from jsDelivr (supabase-js 2.45.4, version-pinned). A self-hosted copy or an integrity hash would remove that dependency.
+5. GitHub Pages cannot send HTTP security headers; moving to Cloudflare Pages would allow strict headers (HSTS, frame-ancestors).

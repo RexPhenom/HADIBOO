@@ -69,7 +69,7 @@
 
 
   // ----- motion (same behaviour as the SLI Marketplace menu): brand name ripples; menu buttons wave constantly and play a shared random effect every 3 seconds -----
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && Element.prototype.animate) {
+  if (Element.prototype.animate) {   // always on, even when the device is set to "reduce motion"
     const host = document.querySelector(".brand-name");
     if (host && !host.dataset.wave) {
       host.dataset.wave = "1"; host.setAttribute("aria-label", "HADIBOO");

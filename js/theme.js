@@ -1,3 +1,5 @@
+// frame-bust: refuse to be shown inside another site
+try { if (window.top !== window.self) { window.top.location = window.self.location; } } catch (e) { document.documentElement.style.display = "none"; }
 // Day / night theme. Loaded in <head> so the right theme paints first (no flash).
 (function () {
   var KEY = "hb-theme", root = document.documentElement, saved = null;

@@ -240,10 +240,6 @@ details p { margin: var(--s3) 0 0; color: var(--ink-soft); }
   .job { grid-template-columns: 1fr; }
   .chip.c1, .chip.c2, .chip.c3 { position: static; display: inline-block; margin: .25rem; }
 }
-@media (prefers-reduced-motion: reduce) {
-  *,*::before,*::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-  .reveal { opacity: 1; transform: none; }
-}
 
 /* ---------- About / portrait ---------- */
 .portrait { position: relative; max-width: 440px; margin-inline: auto; }
@@ -482,4 +478,3 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 .fb-cta { display: inline-block; background: #fbf7f0; color: #3d0007; font-weight: 800; font-size: var(--fs-sm); padding: .55rem 1rem; border-radius: var(--radius-pill); text-decoration: none; }
 .fb-cta:hover { background: #fff; }
 @media (max-width: 760px) { .fbanner { left: 12px; bottom: 12px; width: min(300px, calc(100vw - 92px)); padding: .7rem .8rem .8rem; } .fb-text { display: none; } .fb-title { font-size: 1rem; } }
-@media (prefers-reduced-motion: reduce) { .fbanner { transition: none; } }
