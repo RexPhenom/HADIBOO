@@ -31,7 +31,7 @@
 ## Update — November 2026
 - Public pages: Content-Security-Policy no longer allows inline scripts (`script-src 'self'`), blocks framing/workers/plugins, and upgrades insecure requests. The contact page's inline script moved to `js/contact-direct.js`.
 - Every page refuses to be shown inside another site (frame check in `js/theme.js`; admin has its own).
-- Database: internal helper functions (`hadiboo_review_defaults`, `hadiboo_throttle`, `hadiboo_purge_expired_jobs`) are not callable by visitors; `hadiboo_keep_one_admin` has a fixed search path. See `supabase/hardening.sql`.
+- Database: internal helper functions (`hadiboo_review_defaults`, `hadiboo_throttle`, `hadiboo_purge_expired_jobs`) are not callable by visitors; `hadiboo_keep_one_admin` has a fixed search path. See `docs/hardening.sql`.
 - Visitors can only insert enquiries and reviews (column-limited, rate-limited); they cannot read enquiries or unapproved reviews.
 - Animations ignore the device's "reduce motion" setting by request.
 
