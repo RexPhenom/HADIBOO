@@ -481,3 +481,27 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 /* the words around the logo spin in place, one after another */
 .hero-art .chip { animation: spinWord 6s ease-in-out infinite; transform-origin: 50% 50%; }
 .hero-art .chip.c2 { animation-delay: 1s; } .hero-art .chip.c3 { animation-delay: 2s; }
+
+/* banner pictures + about/gallery motion */
+.fb-pic { height: 96px; margin: -.85rem -1rem .6rem; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; position: relative; }
+.fb-pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.15), var(--fb-bg)); }
+.fb-pic img { width: 100%; height: 100%; object-fit: cover; animation: heroZoom 9s ease-in-out infinite alternate; }
+.fb-head { position: relative; z-index: 1; margin-top: -2.6rem; }
+@media (max-width: 760px) { .fb-pic { height: 64px; } .fb-head { margin-top: -2.1rem; } }
+
+.portrait img { animation: portraitFloat 6s ease-in-out infinite alternate; }
+.portrait::before { animation: archBreathe 5s ease-in-out infinite alternate; transform-origin: 50% 100%; }
+.portrait::after { animation: dotsDrift 7s ease-in-out infinite alternate; }
+.portrait figcaption { animation: portraitFloat 5s ease-in-out infinite alternate-reverse; }
+@keyframes portraitFloat { from { transform: translateY(0) scale(1); } to { transform: translateY(-12px) scale(1.025); } }
+@keyframes archBreathe { from { transform: scale(1) rotate(0); } to { transform: scale(1.05) rotate(1.5deg); } }
+@keyframes dotsDrift { from { transform: translate(0, 0); } to { transform: translate(12px, 10px); } }
+
+.g-item { animation: gRise .8s var(--ease) both; animation-delay: calc(var(--i, 0) * 90ms); overflow: hidden; }
+.g-item img { animation: heroZoom 10s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); transition: filter .4s; }
+.g-item:hover img { filter: brightness(1.08) saturate(1.1); }
+.g-item.local img { aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--pos, 50% 25%); }
+.g-item.local.sq img { aspect-ratio: 1 / 1; }
+.g-note { display: block; font-weight: 500; font-size: .78rem; opacity: 0; max-height: 0; transition: opacity .35s, max-height .35s; }
+.g-item:hover .g-note, .g-item:focus-visible .g-note { opacity: .95; max-height: 5em; }
+@keyframes gRise { from { opacity: 0; transform: translateY(26px) scale(.96); } to { opacity: 1; transform: none; } }
