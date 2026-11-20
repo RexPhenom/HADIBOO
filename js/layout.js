@@ -116,4 +116,5 @@
 
   // Floating WhatsApp chat
   const wa = document.createElement("script"); wa.src = "js/whatsapp.js"; document.body.appendChild(wa);
+  const fb = document.createElement("script"); fb.src = "js/banners.js"; document.body.appendChild(fb);
 });
