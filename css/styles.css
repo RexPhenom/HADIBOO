@@ -238,7 +238,6 @@ details p { margin: var(--s3) 0 0; color: var(--ink-soft); }
   .grid-3, .grid-2, .steps, .foot-grid, form .row { grid-template-columns: 1fr; }
   .jobs-bar { grid-template-columns: 1fr; }
   .job { grid-template-columns: 1fr; }
-  .chip.c1, .chip.c2, .chip.c3 { position: static; display: inline-block; margin: .25rem; }
 }
 
 /* ---------- About / portrait ---------- */
@@ -451,7 +450,7 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 /* fixes: readable Jooble shortcut chips (dark text on cream), job list paging, tidier hero on phones */
 .jb .links a { color: #5c000a; }
 .jobs-more { display: flex; justify-content: center; margin: var(--s5) 0 var(--s6); }
-@media (max-width: 760px) { .hero-art .chip { display: none; } }
+@media (max-width: 760px) { .hero-art .chip { padding: .4rem .75rem; } .chip.c1 { top: 4%; right: 0; } .chip.c2 { bottom: 12%; left: 0; } .chip.c3 { bottom: 0; right: 6%; } }
 
 /* ---------- motion: wavy brand name, zooming hero photo, spinning ring + word ---------- */
 .brand .wv { display: inline-block; will-change: transform; }
@@ -478,3 +477,7 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 .fb-cta { display: inline-block; background: #fbf7f0; color: #3d0007; font-weight: 800; font-size: var(--fs-sm); padding: .55rem 1rem; border-radius: var(--radius-pill); text-decoration: none; }
 .fb-cta:hover { background: #fff; }
 @media (max-width: 760px) { .fbanner { left: 12px; bottom: 12px; width: min(300px, calc(100vw - 92px)); padding: .7rem .8rem .8rem; } .fb-text { display: none; } .fb-title { font-size: 1rem; } }
+
+/* the words around the logo spin in place, one after another */
+.hero-art .chip { animation: spinWord 6s ease-in-out infinite; transform-origin: 50% 50%; }
+.hero-art .chip.c2 { animation-delay: 1s; } .hero-art .chip.c3 { animation-delay: 2s; }
