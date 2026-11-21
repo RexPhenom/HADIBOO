@@ -520,3 +520,24 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 @keyframes logoBeat { 50% { transform: scale(1.05); } }
 @media (max-width: 760px) { .hero-art { width: 78%; } .hero-art .chip { padding: .35rem .65rem; font-size: .7rem; } }
 html, body { overflow-x: clip; }
+
+/* ---------- banner motion (always on, ignores reduce-motion) ---------- */
+.fbanner.in { animation: fbIn .9s cubic-bezier(.2,1.3,.4,1) both, fbBob 4s ease-in-out .9s infinite, fbGlow 3s ease-in-out infinite; }
+.fbanner { overflow: hidden; }
+.fb-logo { animation: fbLogo 5s ease-in-out infinite; transform-origin: 50% 50%; }
+.fb-brand { background: linear-gradient(90deg, currentColor 0 35%, var(--fb-accent) 50%, currentColor 65% 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: fbShine 3.2s linear infinite; }
+.fb-tag { animation: fbTag 2.2s ease-in-out infinite; }
+.fb-cta { position: relative; overflow: hidden; animation: fbPulse 1.8s ease-in-out infinite; }
+.fb-cta::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.9), transparent); animation: fbSweep 2.6s ease-in-out infinite; }
+.fb-pic img { animation: fbZoom 9s ease-in-out infinite alternate; }
+.fb-close { animation: fbWiggle 4s ease-in-out infinite; }
+@keyframes fbIn { 0% { opacity: 0; transform: translateY(70px) scale(.85) rotate(-4deg); } 100% { opacity: 1; transform: none; } }
+@keyframes fbBob { 50% { translate: 0 -7px; } }
+@keyframes fbGlow { 50% { box-shadow: 0 14px 40px rgba(0,0,0,.3), 0 0 0 4px rgba(233,180,76,.35); } }
+@keyframes fbLogo { 0%, 60% { transform: perspective(300px) rotateY(0); } 85%, 100% { transform: perspective(300px) rotateY(360deg); } }
+@keyframes fbShine { to { background-position: -250% 0; } }
+@keyframes fbTag { 50% { letter-spacing: .24em; } }
+@keyframes fbPulse { 50% { transform: scale(1.06); } }
+@keyframes fbSweep { 0% { left: -60%; } 60%, 100% { left: 130%; } }
+@keyframes fbZoom { from { transform: scale(1); } to { transform: scale(1.18); } }
+@keyframes fbWiggle { 0%, 85%, 100% { transform: rotate(0); } 90% { transform: rotate(18deg); } 95% { transform: rotate(-18deg); } }
