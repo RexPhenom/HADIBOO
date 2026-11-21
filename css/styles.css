@@ -548,3 +548,14 @@ html, body { overflow-x: clip; }
 @keyframes fbSwap { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
 .fb-text { display: block !important; }
 @media (max-width: 760px) { .fb-text { font-size: .78rem; margin: .3rem 0 .6rem; line-height: 1.35; } .fbanner { width: min(310px, calc(100vw - 88px)); } }
+/* a different transition for each banner */
+.fb-swap.fb-s0 { animation: fbT0 .8s cubic-bezier(.2,.9,.3,1) both; }
+.fb-swap.fb-s1 { animation: fbT1 .8s cubic-bezier(.2,.9,.3,1) both; }
+.fb-swap.fb-s2 { animation: fbT2 .8s cubic-bezier(.2,1.2,.3,1) both; }
+.fb-swap.fb-s3 { animation: fbT3 .8s cubic-bezier(.2,.9,.3,1) both; }
+.fb-swap.fb-s4 { animation: fbT4 .8s cubic-bezier(.2,.9,.3,1) both; }
+@keyframes fbT0 { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: none; } }
+@keyframes fbT1 { from { opacity: 0; transform: translateX(-60px) rotate(-3deg); } to { opacity: 1; transform: none; } }
+@keyframes fbT2 { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes fbT3 { from { opacity: 0; transform: perspective(500px) rotateY(90deg); } to { opacity: 1; transform: none; } }
+@keyframes fbT4 { from { opacity: 0; transform: translateY(40px) scale(1.15); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }

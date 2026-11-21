@@ -1,8 +1,8 @@
 // Floating banner: five banners about what Hadassah-Esther does, each with a photo from the gallery and a
-// write-up that fits it. They rotate by themselves every 6 seconds (dots let visitors jump to one). Closing
+// write-up that fits it. They rotate by themselves every 5 seconds (dots let visitors jump to one). Closing
 // hides it for that visit only; it is back on the next visit.
 (function () {
-  const KEY = "hb-banner-closed", EVERY = 6000;
+  const KEY = "hb-banner-closed", EVERY = 5000;
   const C = (t) => "contact.html?topic=" + encodeURIComponent(t) + "#book";
   const banners = [
     { tag: "Meet Hadassah-Esther", title: "Career clarity, with a real plan", text: "Career development specialist and public health consultant: clear direction, a plan and the confidence to act.", cta: "Book a clarity session", href: C("Career Clarity & Mentorship"), img: "assets/hadassah.jpg", pos: "50% 18%", tone: "maroon" },
@@ -34,7 +34,7 @@
     im.src = b.img; im.style.objectPosition = b.pos;
     tag.textContent = b.tag; title.textContent = b.title; text.textContent = b.text; cta.textContent = b.cta + " →"; cta.href = b.href;
     ds.forEach((d, k) => d.classList.toggle("on", k === i));
-    [pic, body].forEach((n) => { n.classList.remove("fb-swap"); void n.offsetWidth; n.classList.add("fb-swap"); });
+    [pic, body].forEach((n) => { n.classList.remove("fb-swap", "fb-s0", "fb-s1", "fb-s2", "fb-s3", "fb-s4"); void n.offsetWidth; n.classList.add("fb-swap", "fb-s" + (i % 5)); });
   }
   function restart() { clearInterval(timer); timer = setInterval(() => show((cur + 1) % banners.length), EVERY); }
   close.addEventListener("click", () => { clearInterval(timer); box.classList.remove("in"); setTimeout(() => box.remove(), 400); try { sessionStorage.setItem(KEY, "1"); } catch (_) {} });
