@@ -11,7 +11,8 @@
     { tag: "Public health", title: "Public health that reaches people", text: "Programme planning, health promotion and capacity building for organisations, shared with clarity.", cta: "Explore public health support", href: C("Public Health & Development Programme Support"), img: "assets/hero-bg.jpg", pos: "50% 22%", tone: "sage" },
     { tag: "Training & speaking", title: "Invite her to speak or facilitate", text: "Workshops, trainings and talks on career growth, public health and development, live and practical.", cta: "Plan an event", href: C("Training, Facilitation & Public Speaking"), img: "assets/hero-bg.jpg", pos: "50% 38%", tone: "ink" },
   ];
-  if (/\/admin\//i.test(location.pathname)) return;
+  if (/\/admin\//i.test(location.pathname) || window.__hbBanner) return;
+  window.__hbBanner = true;
   const cycle = Math.floor(Date.now() / (DAYS * 864e5)), i = cycle % banners.length, b = banners[i];
   const id = "c" + cycle;
   try { if (sessionStorage.getItem(KEY) === id) return; } catch (_) {}
