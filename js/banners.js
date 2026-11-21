@@ -1,6 +1,6 @@
 // Floating banner: five promotional banners about what Hadassah-Esther does. One shows at a time and the
 // banner changes by itself every 4 days (the same one for every visitor). Visitors can close it; it stays
-// closed until the next banner comes round.
+// closed for that visit only, so it is back on the next visit (always on the home page).
 (function () {
   const DAYS = 4, KEY = "hb-banner-closed";
   const C = (t) => "contact.html?topic=" + encodeURIComponent(t) + "#book";
@@ -14,7 +14,7 @@
   if (/\/admin\//i.test(location.pathname)) return;
   const cycle = Math.floor(Date.now() / (DAYS * 864e5)), i = cycle % banners.length, b = banners[i];
   const id = "c" + cycle;
-  try { if (localStorage.getItem(KEY) === id) return; } catch (_) {}
+  try { if (sessionStorage.getItem(KEY) === id) return; } catch (_) {}
 
   const mk = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
   const box = mk("aside", "fbanner fb-" + b.tone); box.setAttribute("aria-label", "Featured: " + b.tag);
@@ -26,6 +26,6 @@
   const pic = mk("div", "fb-pic"); const im = mk("img"); im.src = b.img; im.alt = ""; im.style.objectPosition = b.pos; im.decoding = "async"; pic.append(im);
   const head = mk("div", "fb-head"); head.append(logo, mk("span", "fb-brand", "HADIBOO"), close);
   box.append(pic, head, body);
-  close.addEventListener("click", () => { box.classList.remove("in"); setTimeout(() => box.remove(), 400); try { localStorage.setItem(KEY, id); } catch (_) {} });
-  setTimeout(() => { document.body.appendChild(box); requestAnimationFrame(() => box.classList.add("in")); }, 1200);
+  close.addEventListener("click", () => { box.classList.remove("in"); setTimeout(() => box.remove(), 400); try { sessionStorage.setItem(KEY, id); } catch (_) {} });
+  setTimeout(() => { document.body.appendChild(box); requestAnimationFrame(() => box.classList.add("in")); }, 800);
 })();
