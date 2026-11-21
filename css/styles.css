@@ -541,3 +541,10 @@ html, body { overflow-x: clip; }
 @keyframes fbSweep { 0% { left: -60%; } 60%, 100% { left: 130%; } }
 @keyframes fbZoom { from { transform: scale(1); } to { transform: scale(1.18); } }
 @keyframes fbWiggle { 0%, 85%, 100% { transform: rotate(0); } 90% { transform: rotate(18deg); } 95% { transform: rotate(-18deg); } }
+.fb-dots { display: flex; gap: .4rem; margin-top: .7rem; }
+.fb-dot { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 9px; background: rgba(255,255,255,.35); cursor: pointer; transition: width .3s, background .3s; }
+.fb-dot.on { width: 24px; background: var(--fb-accent); }
+.fb-swap { animation: fbSwap .6s cubic-bezier(.2,.9,.3,1) both; }
+@keyframes fbSwap { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+.fb-text { display: block !important; }
+@media (max-width: 760px) { .fb-text { font-size: .78rem; margin: .3rem 0 .6rem; line-height: 1.35; } .fbanner { width: min(310px, calc(100vw - 88px)); } }
