@@ -479,8 +479,6 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 @media (max-width: 760px) { .fbanner { left: 12px; bottom: 12px; width: min(300px, calc(100vw - 92px)); padding: .7rem .8rem .8rem; } .fb-text { display: none; } .fb-title { font-size: 1rem; } }
 
 /* the words around the logo spin in place, one after another */
-.hero-art .chip { animation: spinWord 6s ease-in-out infinite; transform-origin: 50% 50%; }
-.hero-art .chip.c2 { animation-delay: 1s; } .hero-art .chip.c3 { animation-delay: 2s; }
 
 /* banner pictures + about/gallery motion */
 .fb-pic { height: 96px; margin: -.85rem -1rem .6rem; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; position: relative; }
@@ -505,3 +503,20 @@ dialog.lightbox[open] { display: grid; grid-template-columns: 64px 1fr 64px; ali
 .g-note { display: block; font-weight: 500; font-size: .78rem; opacity: 0; max-height: 0; transition: opacity .35s, max-height .35s; }
 .g-item:hover .g-note, .g-item:focus-visible .g-note { opacity: .95; max-height: 5em; }
 @keyframes gRise { from { opacity: 0; transform: translateY(26px) scale(.96); } to { opacity: 1; transform: none; } }
+
+/* ---------- chips orbit the logo; gold dots circle the disc; glow pulses ---------- */
+.hero-art .op, .hero-art .od { position: absolute; inset: 0; animation: spin 24s linear infinite; animation-delay: var(--d); pointer-events: none; }
+.hero-art .od { animation-duration: 9s; animation-direction: reverse; }
+.hero-art .od i { position: absolute; left: 50%; top: 6%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: #e9b44c; box-shadow: 0 0 12px 3px rgba(233,180,76,.7); animation: dotPulse 1.6s ease-in-out infinite; }
+.hero-art .od.d2 i { width: 8px; height: 8px; margin: -4px 0 0 -4px; } .hero-art .od.d3 i { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: #fbf7f0; }
+.hero-art .cw { position: absolute; left: 50%; top: 0; width: 0; height: 0; animation: spin 24s linear infinite reverse; animation-delay: var(--d); }
+.hero-art .chip { position: absolute; left: 0; top: 0; translate: -50% -50%; white-space: nowrap; animation: spinWord 6s ease-in-out infinite, chipGlow 2.4s ease-in-out infinite; }
+.hero-art .o2 .chip { animation-delay: 1s, .6s; } .hero-art .o3 .chip { animation-delay: 2s, 1.2s; }
+.hero-art .disc { animation: discGlow 3.2s ease-in-out infinite; }
+.hero-art img { animation: logoBeat 3.2s ease-in-out infinite; }
+@keyframes dotPulse { 50% { transform: scale(1.6); opacity: .75; } }
+@keyframes chipGlow { 50% { box-shadow: 0 0 0 5px rgba(233,180,76,.35), 0 6px 18px rgba(0,0,0,.25); } }
+@keyframes discGlow { 50% { box-shadow: 0 0 40px 8px rgba(233,180,76,.35); } }
+@keyframes logoBeat { 50% { transform: scale(1.05); } }
+@media (max-width: 760px) { .hero-art { width: 78%; } .hero-art .chip { padding: .35rem .65rem; font-size: .7rem; } }
+html, body { overflow-x: clip; }
