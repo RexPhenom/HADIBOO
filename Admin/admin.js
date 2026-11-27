@@ -109,7 +109,7 @@
   sb.auth.onAuthStateChange((ev) => { if (ev === "PASSWORD_RECOVERY") showSetPassword(); if (ev === "SIGNED_OUT" && session) { session = null; showLogin(); } });
 
   /* ---------- shell ---------- */
-  const TABS = [["dashboard", "Dashboard"], ["jobs", "Jobs"], ["enquiries", "Enquiries"], ["gallery", "Gallery"], ["awards", "Awards & certificates"], ["sponsors", "Sponsors"], ["courses", "Courses"], ["reviews", "Reviews"], ["testimonials", "Testimonials"], ["settings", "Site settings"], ["admins", "Admins"]];
+  const TABS = [["dashboard", "Dashboard"], ["jobs", "Jobs"], ["enquiries", "Enquiries"], ["gallery", "Gallery"], ["awards", "Awards & certificates"], ["sponsors", "Sponsors"], ["courses", "Courses"], ["books", "Books"], ["reviews", "Reviews"], ["testimonials", "Testimonials"], ["settings", "Site settings"], ["admins", "Admins"]];
   function shell(tab) {
     const content = el("main", { class: "main", id: "content" });
     const nav = el("nav", { "aria-label": "Admin" }, TABS.map(([k, t]) => el("button", { type: "button", "aria-current": String(k === tab), text: t, onclick: () => shell(k) })));
@@ -117,7 +117,7 @@
       el("aside", { class: "side" }, el("img", { src: "../assets/logo-full.png", alt: "Hadiboo" }), nav,
         el("div", { class: "who" }, session.user.email, el("br"), el("button", { class: "btn btn--outline-light btn--sm", type: "button", text: "Sign out", onclick: () => signOut() }))),
       content));
-    ({ dashboard, jobs, enquiries, gallery, awards, sponsors, courses, reviews, testimonials, settings, admins })[tab](content);
+    ({ dashboard, jobs, enquiries, gallery, awards, sponsors, courses, books, reviews, testimonials, settings, admins })[tab](content);
   }
   const fail = (box, error) => { box.append(el("p", { class: "msg err", text: "Something went wrong: " + (error && error.message || "unknown error") })); };
   const count = async (table, f) => { let q = sb.from(table).select("*", { count: "exact", head: true }); if (f) q = f(q); const { count: c } = await q; return c ?? 0; };
@@ -412,21 +412,49 @@
     const form = el("form", { class: "panel", novalidate: true, onsubmit: async (e) => {
       e.preventDefault(); const url = f.url.value.trim();
       if (f.title.value.trim().length < 2) return say(msg, "Course title is required.", "err");
-      if (!/^https:\/\/[^\s]+$/i.test(url)) return say(msg, "The course link must start with https://", "err");
-      const { error } = await sb.from("hadiboo_courses").insert({ title: f.title.value.trim(), provider: f.provider.value.trim() || null, category: f.category.value.trim() || null, cost: f.cost.value.trim() || null, description: f.description.value.trim() || null, url });
+      const hide = f.hide.checked; if (url && !/^https:\/\/[^\s]+$/i.test(url)) return say(msg, "The course link must start with https://", "err"); if (!url && !hide) return say(msg, "Add the course link, or tick \"Hide link from visitors\".", "err");
+      const { error } = await sb.from("hadiboo_courses").insert({ title: f.title.value.trim(), provider: f.provider.value.trim() || null, category: f.category.value.trim() || null, cost: f.cost.value.trim() || null, description: f.description.value.trim() || null, url: hide ? null : url, private_url: hide ? (url || null) : null, hide_link: hide });
       if (error) return say(msg, error.message, "err"); form.reset(); say(msg, "Course posted — it's now live on the Courses page.", "ok"); list();
     } }, el("h2", { text: "Post a course" }), el("p", { text: "Add the link to a course. Visitors click it and go to the course provider's page." }),
-      ...fld("title", "Course title *"), ...fld("url", "Course link (https://) *", { max: 1000, a: { type: "url", placeholder: "https://" } }), ...fld("provider", "Provider (e.g. Coursera, WHO Academy)"),
+      ...fld("title", "Course title *"), ...fld("url", "Course link (https://)", { max: 1000, a: { type: "url", placeholder: "https://" } }), ...fld("provider", "Provider (e.g. Coursera, WHO Academy)"),
       ...fld("category", "Category (e.g. Public health, Career skills)", { max: 60 }), ...fld("cost", "Cost (Free, Paid, Free certificate…)", { max: 30 }), ...fld("description", "Short description", { tag: "textarea", max: 600 }),
+      el("label", { class: "check" }, (f.hide = el("input", { type: "checkbox", id: "chide" })), " Hide the link from visitors (they see \"Enquire to enrol\" instead; only you see the link here)"),
       el("div", { class: "btn-row" }, el("button", { class: "btn btn--primary", type: "submit", text: "Post course" })), msg);
     const holder = el("div", { class: "rows" }); box.append(form, el("div", { class: "panel" }, el("h2", { text: "All courses" }), holder));
     async function list() {
       holder.replaceChildren(); const { data, error } = await sb.from("hadiboo_courses").select("*").order("created_at", { ascending: false }).limit(300);
       if (error) return fail(holder, error); if (!data.length) return holder.append(el("p", { text: "No courses yet." }));
       data.forEach((c) => holder.append(el("div", { class: "row-item" }, el("div", {}, el("h3", { text: c.title }),
-        el("div", { class: "meta", text: [c.provider, c.category, c.cost, fmt(c.created_at), c.published ? "" : "HIDDEN"].filter(Boolean).join(" · ") }), el("div", { class: "meta", text: c.url }), c.description ? el("p", { text: c.description }) : null),
+        el("div", { class: "meta", text: [c.provider, c.category, c.cost, fmt(c.created_at), c.published ? "" : "HIDDEN"].filter(Boolean).join(" · ") }), el("div", { class: "meta", text: c.hide_link ? "Link hidden from visitors" + (c.private_url ? ": " + c.private_url : " (none added yet)") : c.url }), c.description ? el("p", { text: c.description }) : null),
         el("div", { class: "acts" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: c.published ? "Hide" : "Show", onclick: async () => { await sb.from("hadiboo_courses").update({ published: !c.published }).eq("id", c.id); list(); } }),
           el("button", { class: "btn btn--danger btn--sm", type: "button", text: "Remove", onclick: async () => { if (confirm("Remove this course?")) { await sb.from("hadiboo_courses").delete().eq("id", c.id); list(); } } })))));
+    }
+    list();
+  }
+
+  /* ---------- books ---------- */
+  async function books(box) {
+    box.append(el("h1", { text: "Books" }));
+    const msg = el("div", { class: "msg", role: "status" });
+    const f = {}; const fld = (k, label, o = {}) => { f[k] = el(o.tag === "textarea" ? "textarea" : "input", { class: "field", id: "b" + k, maxlength: String(o.max || 160), ...(o.tag === "textarea" ? { rows: "3" } : {}), ...(o.a || {}) }); return [el("label", { for: "b" + k, text: label }), f[k]]; };
+    const form = el("form", { class: "panel", novalidate: true, onsubmit: async (e) => {
+      e.preventDefault(); const url = f.url.value.trim();
+      if (f.title.value.trim().length < 2) return say(msg, "Book title is required.", "err");
+      if (!/^https:\/\/[^\s]+$/i.test(url)) return say(msg, "The book link must start with https://", "err");
+      const { error } = await sb.from("hadiboo_books").insert({ title: f.title.value.trim(), author: f.author.value.trim() || null, category: f.category.value.trim() || null, price: f.price.value.trim() || null, description: f.description.value.trim() || null, url });
+      if (error) return say(msg, error.message, "err"); form.reset(); say(msg, "Book added — it's now live on the Books page.", "ok"); list();
+    } }, el("h2", { text: "Add a book" }), el("p", { text: "Add an ebook with its link. Visitors click it and go to where they can get it." }),
+      ...fld("title", "Book title *"), ...fld("url", "Book link (https://) *", { max: 1000, a: { type: "url", placeholder: "https://" } }), ...fld("author", "Author"),
+      ...fld("category", "Category", { max: 60 }), ...fld("price", "Price (e.g. 5,000 or Free)", { max: 30 }), ...fld("description", "Short description", { tag: "textarea", max: 800 }),
+      el("div", { class: "btn-row" }, el("button", { class: "btn btn--primary", type: "submit", text: "Add book" })), msg);
+    const holder = el("div", { class: "rows" }); box.append(form, el("div", { class: "panel" }, el("h2", { text: "All books" }), holder));
+    async function list() {
+      holder.replaceChildren(); const { data, error } = await sb.from("hadiboo_books").select("*").order("created_at", { ascending: false }).limit(300);
+      if (error) return fail(holder, error); if (!data.length) return holder.append(el("p", { text: "No books yet." }));
+      data.forEach((b) => holder.append(el("div", { class: "row-item" }, el("div", {}, el("h3", { text: b.title }),
+        el("div", { class: "meta", text: [b.author, b.category, b.price, fmt(b.created_at), b.published ? "" : "HIDDEN"].filter(Boolean).join(" · ") }), el("div", { class: "meta", text: b.url }), b.description ? el("p", { text: b.description }) : null),
+        el("div", { class: "acts" }, el("button", { class: "btn btn--ghost btn--sm", type: "button", text: b.published ? "Hide" : "Show", onclick: async () => { await sb.from("hadiboo_books").update({ published: !b.published }).eq("id", b.id); list(); } }),
+          el("button", { class: "btn btn--danger btn--sm", type: "button", text: "Remove", onclick: async () => { if (confirm("Remove this book?")) { await sb.from("hadiboo_books").delete().eq("id", b.id); list(); } } })))));
     }
     list();
   }

@@ -12,14 +12,14 @@
       const card = mk("article", "card course"), body = mk("div", "course-body");
       const tags = mk("div", "meta"); if (c.cost) tags.append(mk("span", "tag" + (/free/i.test(c.cost) ? " tag--new" : ""), c.cost)); if (c.category) tags.append(mk("span", "tag", c.category));
       body.append(tags, mk("h3", "", c.title)); if (c.provider) body.append(mk("div", "meta", "By " + c.provider)); if (c.description) body.append(mk("p", "", c.description));
-      const u = safe(c.url); if (u) { const a = mk("a", "btn btn--primary btn--sm", "Go to course"); a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer"; body.append(a); }
+      if (c.hide_link) { const a = mk("a", "btn btn--primary btn--sm", "Enquire to enrol"); a.href = "contact.html?topic=" + encodeURIComponent("Course: " + c.title) + "#book"; body.append(a); } else { const u = safe(c.url); if (u) { const a = mk("a", "btn btn--primary btn--sm", "Go to course"); a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer"; body.append(a); } }
       card.append(body); return card;
     }));
     empty.hidden = out.length > 0;
   }
   (async () => {
     let data = null;
-    if (window.HADIBOO_SB_ON) { try { const r = await hadibooApi("hadiboo_courses?select=*&order=created_at.desc&limit=200"); if (r.ok) data = await r.json(); } catch (_) {} }
+    if (window.HADIBOO_SB_ON) { try { const r = await hadibooApi("hadiboo_courses?select=id,title,provider,category,cost,description,url,hide_link,created_at&order=created_at.desc&limit=200"); if (r.ok) data = await r.json(); } catch (_) {} }
     list.setAttribute("aria-busy", "false"); rows = data || [];
     const cats = [...new Set(rows.map((c) => c.category).filter(Boolean))].sort();
     cats.forEach((c) => { const o = mk("option", "", c); o.value = c; sel.append(o); });
